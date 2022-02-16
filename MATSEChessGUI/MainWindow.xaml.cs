@@ -15,10 +15,7 @@ namespace MATSEChessGUI
     {
         private static double tileSize;
         private ChessRenderer renderer;
-        private ChessBoard board = new ChessBoard();
-
-        private ChessBoardPosition? selectedPos;
-        private ChessColor currentPlayer;
+        private ChessGame game = new ChessGame();
 
         public MainWindow()
         {
@@ -30,14 +27,12 @@ namespace MATSEChessGUI
 
         private void ResetGame()
         {
-            board.Reset();
-            selectedPos = null;
-            currentPlayer = ChessColor.WHITE;
+            game.Reset();
         }
 
         private void Rerender()
         {
-            boardImage.Source = renderer.Render(board, selectedPos, (int)tileSize);
+            boardImage.Source = renderer.Render(game.Board, game.Selection, (int)tileSize);
         }
 
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)
@@ -47,24 +42,22 @@ namespace MATSEChessGUI
             int relativeY = (int)(pos.Y / tileSize);
 
             var boardPos = new ChessBoardPosition(relativeX, relativeY);
-            ChessPiece? selected = board.GetPositionPiece(boardPos);
-            if (selected != null && selected.Color == currentPlayer)
-            {
-                selectedPos = boardPos;
-                Rerender();
-            }
-
+            game.Selection = boardPos;
+            Rerender();
         }
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            tileSize = Math.Min(ActualWidth, ActualHeight-50) / 8.0;
+            tileSize = Math.Min(ActualWidth, ActualHeight-40) / 8.0;
             ResetGame();
             Rerender();
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            tileSize = Math.Min(ActualWidth, ActualHeight-50) / 8.0;
+            tileSize = Math.Min(boardImage.ActualWidth, boardImage.ActualHeight) / 8.0;
+
+            if (tileSize <= 0) return;
+
             Rerender();
         }
 

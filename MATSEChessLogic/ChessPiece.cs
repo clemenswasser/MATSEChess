@@ -7,7 +7,13 @@ namespace MATSEChess
         protected ChessPieceType type;
 
         public ChessColor Color { get => color; }
-        public ChessBoardPosition Position { get => pos; }
+        public ChessBoardPosition Position
+        {
+            get => pos; set
+            {
+                pos = value;
+            }
+        }
 
         public ChessPieceType Type { get => type; }
         public abstract IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state);
