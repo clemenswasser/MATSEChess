@@ -14,6 +14,8 @@ namespace MATSEChess
 
         public ChessBoard Board { get { return board; } }
 
+        public ChessColor CurrentPlayer { get { return currentPlayer; } }
+
         public ChessBoardPosition? Selection
         {
             get => selection;
