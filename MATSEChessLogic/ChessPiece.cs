@@ -29,6 +29,11 @@
 
             return piece.color == color && piece.pos.Equals(pos);
         }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class Pawn : ChessPiece
