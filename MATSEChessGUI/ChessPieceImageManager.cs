@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using MATSEChess;
 
-namespace MATSEChess
+namespace MATSEChessGUI
 {
     public class ChessPieceImageManager
     {
