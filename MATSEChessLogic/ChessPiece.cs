@@ -226,7 +226,7 @@ namespace MATSEChess
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            foreach(var possibleMove in MoveVerticalHorizontal(state)) yield return possibleMove;
+            foreach (var possibleMove in MoveVerticalHorizontal(state)) yield return possibleMove;
             foreach (var possibleMove in MoveDiagonal(state)) yield return possibleMove;
         }
     }
