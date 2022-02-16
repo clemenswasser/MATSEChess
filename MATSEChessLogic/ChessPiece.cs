@@ -11,7 +11,7 @@
 
         public ChessPiece(ChessColor color, ChessBoardPosition pos)
         {
-            if(color == ChessColor.NONE)
+            if (color == ChessColor.NONE)
             {
                 throw new ArgumentException("The color of a chess piece must not be none");
             }
@@ -82,7 +82,14 @@
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            yield break;
+            foreach (var dY in new[] { -1, 0, 1 })
+            {
+                foreach (var dX in new[] { -1, 0, 1 })
+                {
+                    var possibleMove = pos.Move(dX, dY);
+                    if (possibleMove.Valid) yield return possibleMove;
+                }
+            }
         }
     }
 
