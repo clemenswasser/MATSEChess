@@ -47,14 +47,17 @@ namespace MATSEChessGUI
         }
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            tileSize = Math.Min(ActualWidth, ActualHeight-50) / 8.0;
+            tileSize = Math.Min(ActualWidth, ActualHeight-40) / 8.0;
             ResetGame();
             Rerender();
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            tileSize = Math.Min(ActualWidth, ActualHeight-50) / 8.0;
+            tileSize = Math.Min(boardImage.ActualWidth, boardImage.ActualHeight) / 8.0;
+
+            if (tileSize <= 0) return;
+
             Rerender();
         }
 
