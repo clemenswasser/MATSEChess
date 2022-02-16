@@ -147,21 +147,17 @@ namespace MATSEChess
             var oneForwardOccupation = state.GetPositionState(oneForward);
 
             // 1. Check one step forward
-            if (oneForward.Valid && oneForwardOccupation != color)
+            if (oneForward.Valid && oneForwardOccupation == ChessColor.NONE)
             {
                 yield return pos.Move(0, moveDir);
 
-                if (oneForwardOccupation == ChessColor.NONE)
+                // 2. Check two steps forward (only in initial row)
+                int initialY = color == ChessColor.BLACK ? 1 : 6;
+                var twoForward = pos.Move(0, 2 * moveDir);
+                if (pos.Y == initialY && state.GetPositionState(twoForward) != color)
                 {
-                    // 2. Check two steps forward (only in initial row)
-                    int initialY = color == ChessColor.BLACK ? 1 : 6;
-                    var twoForward = pos.Move(0, 2 * moveDir);
-                    if (pos.Y == initialY && state.GetPositionState(twoForward) != color)
-                    {
-                        yield return pos.Move(0, 2 * moveDir);
-                    }
+                    yield return pos.Move(0, 2 * moveDir);
                 }
-
             }
 
             // 3. Check (diagonal) attack positions
