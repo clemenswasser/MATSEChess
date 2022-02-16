@@ -86,6 +86,7 @@
             {
                 foreach (var dX in new[] { -1, 0, 1 })
                 {
+                    if (dX == 0 && dY == 0) continue;
                     var possibleMove = pos.Move(dX, dY);
                     if (possibleMove.Valid) yield return possibleMove;
                 }
