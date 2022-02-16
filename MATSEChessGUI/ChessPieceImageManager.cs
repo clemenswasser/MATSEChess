@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows;
+using System.Windows.Resources;
 using MATSEChess;
 
 namespace MATSEChessGUI
 {
     public class ChessPieceImageManager
     {
-        private const string filepath = "./resources/pieces.png";
-
         private Dictionary<ChessPieceInstance, Bitmap> images = new Dictionary<ChessPieceInstance, Bitmap>();
         private int imageWidth;
         private int imageHeight;
-        private Bitmap fallback = new Bitmap(16,16);
+        private Bitmap fallback = new Bitmap(16, 16);
         public void LoadImages()
         {
-            if(!File.Exists(filepath))
-            {
-                MessageBox.Show($"File {Path.GetFullPath(filepath)} does not exist!");
-                return;
-            }
-            Bitmap bmpOrig = new Bitmap("./resources/pieces.png");
-            
+            var uri = new Uri("/resources/pieces.png", UriKind.Relative);
+            var pieces = Application.GetResourceStream(uri);
+            Bitmap bmpOrig = new Bitmap(pieces.Stream);
+
 
             var pieceOrder = new ChessPieceType[] { ChessPieceType.QUEEN, ChessPieceType.KING, ChessPieceType.ROOK, ChessPieceType.KNIGHT, ChessPieceType.BISHOP, ChessPieceType.PAWN };
             var colorOrder = new ChessColor[] { ChessColor.BLACK, ChessColor.WHITE };
@@ -36,10 +33,10 @@ namespace MATSEChessGUI
 
         private void ReadImageTiles(Bitmap all, ChessPieceType[] pieceOrder, ChessColor[] colorOrder)
         {
-            for(var row = 0; row < colorOrder.Length; row++)
+            for (var row = 0; row < colorOrder.Length; row++)
             {
                 var color = colorOrder[row];
-                for(var col = 0; col < pieceOrder.Length; col++)
+                for (var col = 0; col < pieceOrder.Length; col++)
                 {
                     var piece = pieceOrder[col];
                     images[new ChessPieceInstance(piece, color)] = CopyBitmap(all, new Rectangle(col * imageWidth, row * imageHeight, imageWidth, imageHeight));

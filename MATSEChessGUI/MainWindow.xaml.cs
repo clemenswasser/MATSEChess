@@ -28,8 +28,8 @@ namespace MATSEChessGUI
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(boardImage);
-            int relativeX = (int)Math.Floor(pos.X/TILE_SIZE);
-            int relativeY = (int)Math.Floor(pos.Y/TILE_SIZE);
+            int relativeX = (int)Math.Floor(pos.X / TILE_SIZE);
+            int relativeY = (int)Math.Floor(pos.Y / TILE_SIZE);
             MessageBox.Show($"X: {relativeX}, Y: {relativeY}");
         }
 
@@ -47,15 +47,15 @@ namespace MATSEChessGUI
         {
             var bitmap = new Bitmap(TILE_SIZE * 8, TILE_SIZE * 8);
             using (Graphics g = Graphics.FromImage(bitmap))
-            { 
+            {
                 for (int x = 0; x < 8; ++x)
                 {
                     for (int y = 0; y < 8; ++y)
                     {
-                        Brush b = ((x+y) % 2 == 0) ? DARK_BRUSH : BRIGHT_BRUSH;
+                        Brush b = ((x + y) % 2 == 0) ? DARK_BRUSH : BRIGHT_BRUSH;
                         g.FillRectangle(b, new Rectangle(TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE));
                     }
-                } 
+                }
             }
 
             return bitmap;
