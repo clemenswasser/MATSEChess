@@ -8,6 +8,21 @@
     <WarningLevel>5</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="resources\Chess_bdt45.svg" />
+    <None Remove="resources\Chess_blt45.svg" />
+    <None Remove="resources\Chess_kdt45.svg" />
+    <None Remove="resources\Chess_klt45.svg" />
+    <None Remove="resources\Chess_ndt45.svg" />
+    <None Remove="resources\Chess_nlt45.svg" />
+    <None Remove="resources\Chess_pdt45.svg" />
+    <None Remove="resources\Chess_plt45.svg" />
+    <None Remove="resources\Chess_qdt45.svg" />
+    <None Remove="resources\Chess_qlt45.svg" />
+    <None Remove="resources\Chess_rdt45.svg" />
+    <None Remove="resources\Chess_rlt45.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Svg" Version="3.4.0" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
@@ -16,6 +31,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="resources\Chess_bdt45.svg" />
+    <Resource Include="resources\Chess_blt45.svg" />
+    <Resource Include="resources\Chess_kdt45.svg" />
+    <Resource Include="resources\Chess_klt45.svg" />
+    <Resource Include="resources\Chess_ndt45.svg" />
+    <Resource Include="resources\Chess_nlt45.svg" />
+    <Resource Include="resources\Chess_pdt45.svg" />
+    <Resource Include="resources\Chess_plt45.svg" />
+    <Resource Include="resources\Chess_qdt45.svg" />
+    <Resource Include="resources\Chess_qlt45.svg" />
+    <Resource Include="resources\Chess_rdt45.svg" />
+    <Resource Include="resources\Chess_rlt45.svg" />
     <Resource Include="resources\pieces.png" />
   </ItemGroup>
 

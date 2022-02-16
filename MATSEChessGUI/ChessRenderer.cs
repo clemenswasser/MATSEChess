@@ -1,7 +1,9 @@
 ﻿using MATSEChess;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace MATSEChessGUI
@@ -48,14 +50,32 @@ namespace MATSEChessGUI
             return bitmap;
         }
 
+        private static Dictionary<(ChessColor, ChessPieceType), string> dict = new Dictionary<(ChessColor, ChessPieceType), string>()
+        {
+            { (ChessColor.WHITE, ChessPieceType.BISHOP), "/resources/Chess_bdt45.svg" },
+            { (ChessColor.BLACK, ChessPieceType.BISHOP), "/resources/Chess_blt45.svg" },
+            { (ChessColor.WHITE, ChessPieceType.KING), "/resources/Chess_kdt45.svg" },
+            { (ChessColor.BLACK, ChessPieceType.KING), "/resources/Chess_klt45.svg" },
+            { (ChessColor.WHITE, ChessPieceType.KNIGHT), "/resources/Chess_ndt45.svg" },
+            { (ChessColor.BLACK, ChessPieceType.KNIGHT), "/resources/Chess_nlt45.svg" },
+            { (ChessColor.WHITE, ChessPieceType.PAWN), "/resources/Chess_pdt45.svg" },
+            { (ChessColor.BLACK, ChessPieceType.PAWN), "/resources/Chess_plt45.svg" },
+            { (ChessColor.WHITE, ChessPieceType.QUEEN), "/resources/Chess_qdt45.svg" },
+            { (ChessColor.BLACK, ChessPieceType.QUEEN), "/resources/Chess_qlt45.svg" },
+            { (ChessColor.WHITE, ChessPieceType.ROOK), "/resources/Chess_rdt45.svg" },
+            { (ChessColor.BLACK, ChessPieceType.ROOK), "/resources/Chess_rlt45.svg" },
+        };
+
         private void DrawPieces(Bitmap bitmap, ChessBoard board, int tileSize)
         {
             using Graphics g = Graphics.FromImage(bitmap);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             foreach (var piece in board.Pieces)
             {
-                // TODO: Generify -2 to image centering
-                g.DrawImage(manager.GetImageTile(piece.Type, piece.Color), tileSize * piece.Position.X - 2, tileSize * piece.Position.Y - 2, tileSize, tileSize);
+                var uri = new Uri(dict[(piece.Color, piece.Type)], UriKind.Relative);
+                var p = Application.GetResourceStream(uri);
+                var document = Svg.SvgDocument.Open<Svg.SvgDocument>(p.Stream);
+                g.DrawImageUnscaled(document.Draw(tileSize, tileSize), tileSize * piece.Position.X - 2, tileSize * piece.Position.Y - 2);
             }
         }
 
@@ -73,7 +93,7 @@ namespace MATSEChessGUI
 
             g.FillRectangle(SELECTION_BRUSH, GetTileRectangle(selectedPos.X, selectedPos.Y, tileSize));
 
-            foreach(var pos in selected.GetPossibleMoves(board))
+            foreach (var pos in selected.GetPossibleMoves(board))
             {
                 g.FillEllipse(SELECTION_BRUSH, GetTileCircle(pos.X, pos.Y, tileSize));
             }
@@ -86,8 +106,8 @@ namespace MATSEChessGUI
 
         private Rectangle GetTileCircle(int x, int y, int tileSize)
         {
-            var rect = GetTileRectangle(x,y, tileSize);
-            return new Rectangle(rect.X + rect.Width/4, rect.Y+rect.Height/4, rect.Width/2, rect.Height/2);
+            var rect = GetTileRectangle(x, y, tileSize);
+            return new Rectangle(rect.X + rect.Width / 4, rect.Y + rect.Height / 4, rect.Width / 2, rect.Height / 2);
         }
 
         private BitmapImage BitmapToImageSource(Bitmap bitmap)
