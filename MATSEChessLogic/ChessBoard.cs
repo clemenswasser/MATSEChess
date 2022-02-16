@@ -37,6 +37,28 @@ namespace MATSEChess
             pieces.Add(piece);
         }
 
+        public bool Move(ChessBoardPosition from, ChessBoardPosition to)
+        {
+            ChessPiece? moving = GetPositionPiece(from);
+
+            if (moving == null) return false;
+
+            ChessPiece? target = GetPositionPiece(to);
+            if(target != null && target.Color == moving.Color)
+            {
+                return false;
+            }
+
+            if(target != null)
+            {
+                if (!pieces.Remove(target))
+                    return false;
+            }
+
+            moving.Position = to;
+            return true;
+        }
+
         public void Reset()
         {
             pieces.Clear();
