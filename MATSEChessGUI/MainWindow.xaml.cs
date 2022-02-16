@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -91,3 +91,4 @@ namespace MATSEChessGUI
         }
     }
 }
+

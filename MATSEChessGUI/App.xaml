@@ -1,4 +1,4 @@
-﻿<Application x:Class="MATSEChessGUI.App"
+<Application x:Class="MATSEChessGUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:MATSEChessGUI"
@@ -7,3 +7,4 @@
          
     </Application.Resources>
 </Application>
+

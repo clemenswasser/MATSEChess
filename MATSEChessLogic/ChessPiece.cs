@@ -1,4 +1,4 @@
-﻿namespace MATSEChess
+namespace MATSEChess
 {
     public abstract class ChessPiece
     {
@@ -195,3 +195,4 @@
         }
     }
 }
+
