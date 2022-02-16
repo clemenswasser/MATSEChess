@@ -14,7 +14,7 @@ namespace MATSEChess
         {
             foreach (var piece in pieces)
             {
-                if(piece.Position.Equals(pos))
+                if (piece.Position.Equals(pos))
                     return piece.Color;
             }
             return ChessColor.NONE;
@@ -51,6 +51,11 @@ namespace MATSEChess
                 return false;
 
             return pos.x == x && pos.y == y;
+        }
+
+        public override string ToString()
+        {
+            return $"({x}, {y})";
         }
     }
 }
