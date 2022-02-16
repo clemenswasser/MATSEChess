@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MATSEChess
+﻿namespace MATSEChess
 {
     public abstract class ChessPiece
     {

@@ -1,9 +1,4 @@
-﻿
-
-using System;
-using System.Collections.Generic;
-
-/// <summary>
+﻿/// <summary>
 /// The board is 8x8, where the position (0,0) is the upper left corner of the field.
 /// 
 /// The white pieces are initially place in the bottom rows (index 6+7), while the black
@@ -17,7 +12,7 @@ namespace MATSEChess
 
         public ChessColor GetPositionState(ChessBoardPosition pos)
         {
-            foreach(var piece in pieces)
+            foreach (var piece in pieces)
             {
                 if(piece.Position.Equals(pos))
                     return piece.Color;
@@ -49,7 +44,7 @@ namespace MATSEChess
 
         public override bool Equals(object? obj)
         {
-            if(obj == null)
+            if (obj == null)
                 return false;
             ChessBoardPosition? pos = obj as ChessBoardPosition;
             if (pos == null)

@@ -1,6 +1,4 @@
-﻿
-
-namespace MATSEChess
+﻿namespace MATSEChess
 {
     public enum ChessColor
     {
