@@ -11,6 +11,10 @@
 
         public ChessPiece(ChessColor color, ChessBoardPosition pos)
         {
+            if(color == ChessColor.NONE)
+            {
+                throw new ArgumentException("The color of a chess piece must not be none");
+            }
             this.color = color;
             this.pos = pos;
         }
