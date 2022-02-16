@@ -47,7 +47,7 @@ namespace MATSEChessGUI
             foreach (var piece in board.Pieces)
             {
                 g.DrawImageUnscaled(ChessPieceImageManager.GetImageTile(piece.Type, piece.Color, tileSize),
-                                    tileSize * piece.Position.X - 2, tileSize * piece.Position.Y - 2);
+                                    tileSize * piece.Position.X, tileSize * piece.Position.Y);
             }
         }
 
