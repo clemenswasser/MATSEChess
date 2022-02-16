@@ -5,9 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MATSEChessGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
-    <Grid Height="600" VerticalAlignment="Top">
-        <Image x:Name="boardImage" HorizontalAlignment="Left" Height="512" Margin="10,10,0,0" VerticalAlignment="Top" Width="512" MouseDown="OnBoardMouseDown"/>
-    </Grid>
+        Title="MainWindow" Height="825" Width="800">
+    <Image Name="boardImage" MouseDown="OnBoardMouseDown"/>
 </Window>
 
