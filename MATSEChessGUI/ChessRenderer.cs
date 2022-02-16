@@ -87,8 +87,16 @@ namespace MATSEChessGUI
 
         private static Rectangle GetTileCircle(int x, int y, int tileSize)
         {
+            const double sizeMult = 0.3;
+
             var rect = GetTileRectangle(x, y, tileSize);
-            return new Rectangle(rect.X + rect.Width / 4, rect.Y + rect.Height / 4, rect.Width / 2, rect.Height / 2);
+
+            int width = (int)(rect.Width * sizeMult);
+            int height = (int)(rect.Height * sizeMult);
+            int adjX = rect.X + Math.Abs(rect.Width - width) / 2;
+            int adjY = rect.Y + Math.Abs(rect.Height - height) / 2;
+
+            return new Rectangle(adjX, adjY, width, height);
         }
 
         private static BitmapImage BitmapToImageSource(Bitmap bitmap)

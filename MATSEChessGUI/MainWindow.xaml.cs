@@ -25,6 +25,7 @@ namespace MATSEChessGUI
         private void ResetGame()
         {
             game.Reset();
+            errorPos = null;
         }
 
         private void Rerender()
