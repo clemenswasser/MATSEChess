@@ -29,7 +29,19 @@ namespace MATSEChessGUI
         private void Rerender()
         {
             boardImage.Source = ChessRenderer.Render(game.Board, game.Selection, (int)tileSize);
-            currentPlayerText.Text = $"Current Player: {(game.CurrentPlayer == ChessColor.WHITE ? "White" : "Black")}";
+
+            ChessColor winner = game.Winner;
+
+            if(game.Winner != ChessColor.NONE)
+            {
+                currentPlayerText.Text = $"Winner: {ChessUtils.ColorToString(winner)}";
+            } else
+            {
+                    currentPlayerText.Text = $"Current Player: {ChessUtils.ColorToString(game.CurrentPlayer)}";
+
+            }
+
+            
         }
 
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)

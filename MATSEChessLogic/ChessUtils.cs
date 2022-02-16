@@ -50,6 +50,19 @@ namespace MATSEChess
 
     public static class ChessUtils
     {
+        public static string ColorToString(ChessColor color)
+        {
+            switch (color)
+            {
+                case ChessColor.BLACK:
+                    return "Black";
+                case ChessColor.WHITE:
+                    return "White";
+                default:
+                    return "NONE";
+            }
+        }
+
         public static ChessColor GetOpponentColor(ChessColor color)
         {
             switch (color)

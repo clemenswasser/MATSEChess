@@ -11,8 +11,19 @@ namespace MATSEChess
         private ChessBoard board = new ChessBoard();
         private ChessBoardPosition? selection;
         private ChessColor currentPlayer;
-
         public ChessBoard Board { get { return board; } }
+
+        public ChessColor Winner
+        {
+            get
+            {
+                var kings = board.Pieces.FindAll(piece => piece.Type == ChessPieceType.KING);
+
+                if (kings.Count != 1)
+                    return ChessColor.NONE;
+                return kings[0].Color;
+            }
+        }
 
         public ChessColor CurrentPlayer { get { return currentPlayer; } }
 
@@ -21,7 +32,7 @@ namespace MATSEChess
             get => selection;
             set
             {
-                if(value == null)
+                if(value == null || Winner != ChessColor.NONE)
                 {
                     selection = null;
                     return;

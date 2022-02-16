@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MATSEChessGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MATSE Chess" Height="600" Width="800">
     <Grid>
         <Image Name="boardImage" MouseDown="OnBoardMouseDown" HorizontalAlignment="Left" Loaded="OnLoaded" SizeChanged="OnSizeChanged" Margin="0,0,200,0"/>
         <TextBlock x:Name="currentPlayerText" HorizontalAlignment="Right" Margin="610,10,20,0" TextWrapping="Wrap" Text="Current Player: Black" VerticalAlignment="Top" FontSize="20"/>
