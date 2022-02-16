@@ -97,7 +97,7 @@ namespace MATSEChess
                 {
                     if (dX == 0 && dY == 0) continue;
                     var possibleMove = pos.Move(dX, dY);
-                    if (possibleMove.Valid) yield return possibleMove;
+                    if (possibleMove.Valid && state.GetPositionState(possibleMove) != color) yield return possibleMove;
                 }
             }
         }
@@ -189,7 +189,7 @@ namespace MATSEChess
                 {
                     if (Math.Abs(dX) == Math.Abs(dY)) continue;
                     var possibleMove = pos.Move(dX, dY);
-                    if (possibleMove.Valid) yield return possibleMove;
+                    if (possibleMove.Valid && state.GetPositionState(possibleMove) != color) yield return possibleMove;
                 }
             }
         }
