@@ -30,51 +30,64 @@ namespace MATSEChess
         public ChessBoardPosition? Selection
         {
             get => selection;
-            set
+        }
+
+        public bool SetSelection(ChessBoardPosition value)
+        {
+            if (value == null || Winner != ChessColor.NONE)
             {
-                if(value == null || Winner != ChessColor.NONE)
-                {
-                    selection = null;
-                    return;
-                }
+                selection = null;
+                return true; // Ignore this selection
+            }
 
-                if(!value.Valid)
-                {
-                    throw new ArgumentException("Invalid position provided");
-                }
+            if (!value.Valid)
+            {
+                return false;
+            }
 
-                ChessPiece? clickedPos = board.GetPositionPiece(value);
+            ChessPiece? clickedPos = board.GetPositionPiece(value);
 
-                if(selection == null) // Enter selection mode
+            if (selection == null) // Enter selection mode
+            {
+                if (clickedPos == null) // Clicked empty tile
+                    return true;
+
+                if (clickedPos.Color == currentPlayer)
                 {
-                    if(clickedPos != null && clickedPos.Color == currentPlayer)
-                    {
-                        selection = value;
-                    }
+                    selection = value;
+                    return true;
                 } 
-                else // Already selected something
+                else if(clickedPos != null && clickedPos.Color == ChessUtils.GetOpponentColor(CurrentPlayer))
+                { // Clicked different team
+                    return false;
+                }
+            }
+            else // Already selected something
+            {
+                if (clickedPos != null && clickedPos.Color == currentPlayer) // Change selection
                 {
-                    if(clickedPos != null && clickedPos.Color == currentPlayer) // Change selection
+                    selection = value;
+                }
+                else
+                { // Check if possible move
+                    ChessPiece? currentlySelected = board.GetPositionPiece(selection);
+                    if (currentlySelected == null)
                     {
-                        selection = value;
-                    } else
-                    { // Check if possible move
-                        ChessPiece? currentlySelected = board.GetPositionPiece(selection);
-                        if(currentlySelected == null)
-                        {
-                            throw new DataMisalignedException("No piece at current selection");
-                        }
+                        return false;
+                    }
 
-                        if(currentlySelected.GetPossibleMoves(board).Contains(value))
-                        {
-                            MoveSelected(value);
-                        } else
-                        {
-                            selection = null;
-                        }
+                    if (currentlySelected.GetPossibleMoves(board).Contains(value))
+                    {
+                        MoveSelected(value);
+                    }
+                    else
+                    {
+                        selection = null;
                     }
                 }
             }
+
+            return true;
         }
 
         private void MoveSelected(ChessBoardPosition value)

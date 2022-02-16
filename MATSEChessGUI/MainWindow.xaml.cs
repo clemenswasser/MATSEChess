@@ -15,6 +15,7 @@ namespace MATSEChessGUI
     {
         private static double tileSize;
         private ChessGame game = new ChessGame();
+        private ChessBoardPosition? errorPos;
 
         public MainWindow()
         {
@@ -28,8 +29,7 @@ namespace MATSEChessGUI
 
         private void Rerender()
         {
-            boardImage.Source = ChessRenderer.Render(game.Board, game.Selection, (int)tileSize);
-
+            boardImage.Source = ChessRenderer.Render(game.Board, game.Selection, errorPos, (int)tileSize);
             ChessColor winner = game.Winner;
 
             if(game.Winner != ChessColor.NONE)
@@ -37,11 +37,8 @@ namespace MATSEChessGUI
                 currentPlayerText.Text = $"Winner: {ChessUtils.ColorToString(winner)}";
             } else
             {
-                    currentPlayerText.Text = $"Current Player: {ChessUtils.ColorToString(game.CurrentPlayer)}";
-
+                currentPlayerText.Text = $"Current Player: {ChessUtils.ColorToString(game.CurrentPlayer)}";
             }
-
-            
         }
 
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)
@@ -51,7 +48,8 @@ namespace MATSEChessGUI
             int relativeY = (int)(pos.Y / tileSize);
 
             var boardPos = new ChessBoardPosition(relativeX, relativeY);
-            game.Selection = boardPos;
+            var success = game.SetSelection(boardPos);
+            errorPos = success ? null : boardPos;
             Rerender();
         }
         private void OnLoaded(object sender, RoutedEventArgs e)

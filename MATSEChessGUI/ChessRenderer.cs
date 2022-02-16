@@ -1,4 +1,5 @@
 ﻿using MATSEChess;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
@@ -10,11 +11,13 @@ namespace MATSEChessGUI
         private static Brush BRIGHT_BRUSH = new SolidBrush(Color.FromArgb(255, 240, 217, 181));
         private static SolidBrush DARK_BRUSH = new SolidBrush(Color.FromArgb(255, 181, 136, 99));
         private static Brush SELECTION_BRUSH = new SolidBrush(Color.FromArgb(255, 130, 151, 105));
+        private static Brush ERROR_BRUSH = new SolidBrush(Color.FromArgb(255, 216, 52, 52));
 
-        public static BitmapImage Render(ChessBoard board, ChessBoardPosition? selectedPos, int tileSize)
+        public static BitmapImage Render(ChessBoard board, ChessBoardPosition? selectedPos, ChessBoardPosition? errorPos, int tileSize)
         {
             var bitmap = DrawBasicBoard(tileSize);
             DrawSelection(bitmap, board, selectedPos, tileSize);
+            DrawTile(bitmap, errorPos, tileSize, ERROR_BRUSH);
             DrawPieces(bitmap, board, tileSize);
             return BitmapToImageSource(bitmap);
         }
@@ -66,6 +69,18 @@ namespace MATSEChessGUI
             {
                 g.FillEllipse(SELECTION_BRUSH, GetTileCircle(pos.X, pos.Y, tileSize));
             }
+        }
+
+        private static void DrawTile(Bitmap bitmap, ChessBoardPosition? pos, int tileSize, Brush b)
+        {
+            if(pos == null || !pos.Valid)
+            {
+                return;
+            }
+
+            using Graphics g = Graphics.FromImage(bitmap);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.FillRectangle(b, GetTileRectangle(pos.X, pos.Y, tileSize));
         }
 
         private static Rectangle GetTileRectangle(int x, int y, int tileSize)
