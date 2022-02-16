@@ -56,9 +56,8 @@ namespace MATSEChessGUI
         }
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            // Somehow the ActualWidth and ActualHeight of boardImage is NaN at this point...
+            // Calculate a initial size from the window dimensions
             tileSize = Math.Min(ActualWidth, ActualHeight - 40) / 8.0;
-            ResetGame();
             Rerender();
         }
 
