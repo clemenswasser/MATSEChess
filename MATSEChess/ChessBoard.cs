@@ -15,14 +15,14 @@ namespace MATSEChess
     {
         private List<ChessPiece> pieces = new List<ChessPiece>();
 
-        public bool IsOccupied(ChessBoardPosition pos)
+        public ChessColor GetPositionState(ChessBoardPosition pos)
         {
             foreach(var piece in pieces)
             {
                 if(piece.Position.Equals(pos))
-                    return true;
+                    return piece.Color;
             }
-            return false;
+            return ChessColor.NONE;
         }
     }
 
@@ -33,6 +33,8 @@ namespace MATSEChess
 
         public int X { get => x; }
         public int Y { get => y; }
+
+        public bool Valid { get => x >= 0 && y >= 0 && x < 8 && y < 8; }
 
         public ChessBoardPosition(int x, int y)
         {

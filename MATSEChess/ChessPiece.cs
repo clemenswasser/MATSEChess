@@ -29,25 +29,35 @@ namespace MATSEChess
         {
             int moveDir = color == ChessColor.BLACK ? 1 : -1; // Black pawns can only move down
 
+            var oneForward = pos.Move(0, moveDir);
+            var oneForwardOccupation = state.GetPositionState(oneForward);
+
             // 1. Check one step forward
-            if(!state.IsOccupied(pos.Move(0, moveDir)))
+            if (oneForward.Valid && oneForwardOccupation != color)
             {
                 yield return pos.Move(0, moveDir);
+
+                if(oneForwardOccupation == ChessColor.NONE)
+                {
+                    // 2. Check two steps forward (only in initial row)
+                    int initialY = color == ChessColor.BLACK ? 1 : 6;
+                    var twoForward = pos.Move(0, 2 * moveDir);
+                    if (pos.Y == initialY && state.GetPositionState(twoForward) != color)
+                    {
+                        yield return pos.Move(0, 2 * moveDir);
+                    }
+                }
+
             }
 
-            // 2. Check two steps forward (only in initial row)
-            int initialY = color == ChessColor.BLACK ? 1 : 6;
-            if(pos.Y == initialY && !state.IsOccupied(pos.Move(0, 2*moveDir)))
-            {
-                yield return pos.Move(0, 2*moveDir);
-            }
+            
 
             // 3. Check attack positions
             ChessBoardPosition leftPos = pos.Move(-1, moveDir);
             ChessBoardPosition rightPos = pos.Move(1, moveDir);
-            if(!state.IsOccupied(leftPos))
+            if(leftPos.Valid && state.GetPositionState(leftPos) == ChessUtils.GetOpponentColor(color))
                 yield return leftPos;
-            if(!state.IsOccupied(rightPos))
+            if(rightPos.Valid && state.GetPositionState(rightPos) == ChessUtils.GetOpponentColor(color))
                 yield return rightPos;
         }
     }
