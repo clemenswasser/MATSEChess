@@ -17,6 +17,92 @@ namespace MATSEChess
 
         public ChessPieceType Type { get => type; }
         public abstract IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state);
+        public IEnumerable<ChessBoardPosition> MoveVerticalHorizontal(ChessBoard state)
+        {
+            //Move up
+            for (int i = 1; i < 9; ++i)
+            {
+                var possibleMove = pos.Move(0, -i);
+                if (!possibleMove.Valid || state.GetPositionState(possibleMove) == color)
+                    break;
+                yield return possibleMove;
+                if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
+                    break;
+            }
+            //Move down
+            for (int i = 1; i < 9; ++i)
+            {
+                var possibleMove = pos.Move(0, i);
+                if (!possibleMove.Valid || state.GetPositionState(possibleMove) == color)
+                    break;
+                yield return possibleMove;
+                if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
+                    break;
+            }
+            //Move left
+            for (int i = 1; i < 9; ++i)
+            {
+                var possibleMove = pos.Move(-i, 0);
+                if (!possibleMove.Valid || state.GetPositionState(possibleMove) == color)
+                    break;
+                yield return possibleMove;
+                if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
+                    break;
+            }
+            //Move right
+            for (int i = 1; i < 9; ++i)
+            {
+                var possibleMove = pos.Move(i, 0);
+                if (!possibleMove.Valid || state.GetPositionState(possibleMove) == color)
+                    break;
+                yield return possibleMove;
+                if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
+                    break;
+            }
+        }
+        public IEnumerable<ChessBoardPosition> MoveDiagonal(ChessBoard state)
+        {
+            //Move upleft
+            for (int i = 1; i < 9; ++i)
+            {
+                var possibleMove = pos.Move(-i, -i);
+                if (!possibleMove.Valid || state.GetPositionState(possibleMove) == color)
+                    break;
+                yield return possibleMove;
+                if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
+                    break;
+            }
+            //Move upright
+            for (int i = 1; i < 9; ++i)
+            {
+                var possibleMove = pos.Move(i, -i);
+                if (!possibleMove.Valid || state.GetPositionState(possibleMove) == color)
+                    break;
+                yield return possibleMove;
+                if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
+                    break;
+            }
+            //Move downleft
+            for (int i = 1; i < 9; ++i)
+            {
+                var possibleMove = pos.Move(-i, i);
+                if (!possibleMove.Valid || state.GetPositionState(possibleMove) == color)
+                    break;
+                yield return possibleMove;
+                if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
+                    break;
+            }
+            //Move downright
+            for (int i = 1; i < 9; ++i)
+            {
+                var possibleMove = pos.Move(i, i);
+                if (!possibleMove.Valid || state.GetPositionState(possibleMove) == color)
+                    break;
+                yield return possibleMove;
+                if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
+                    break;
+            }
+        }
 
         public ChessPiece(ChessColor color, ChessBoardPosition pos, ChessPieceType type)
         {
@@ -118,18 +204,7 @@ namespace MATSEChess
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            for (int i = 1; i < 9; ++i)
-            {
-                foreach (var dY in new[] { -i, 0, i })
-                {
-                    foreach (var dX in new[] { -i, 0, i })
-                    {
-                        if (Math.Abs(dX) == Math.Abs(dY)) continue;
-                        var possibleMove = pos.Move(dX, dY);
-                        if (possibleMove.Valid) yield return possibleMove;
-                    }
-                }
-            }
+            return MoveVerticalHorizontal(state);
         }
     }
 
@@ -142,17 +217,7 @@ namespace MATSEChess
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            for (int i = 1; i < 9; ++i)
-            {
-                foreach (var dY in new[] { -i, i })
-                {
-                    foreach (var dX in new[] { -i, i })
-                    {
-                        var possibleMove = pos.Move(dX, dY);
-                        if (possibleMove.Valid) yield return possibleMove;
-                    }
-                }
-            }
+            return MoveDiagonal(state);
         }
     }
 
