@@ -14,12 +14,17 @@ namespace MATSEChess
 
         public ChessColor GetPositionState(ChessBoardPosition pos)
         {
+            return GetPositionPiece(pos)?.Color ?? ChessColor.NONE;
+        }
+
+        public ChessPiece? GetPositionPiece(ChessBoardPosition pos)
+        {
             foreach (var piece in pieces)
             {
                 if (piece.Position.Equals(pos))
-                    return piece.Color;
+                    return piece;
             }
-            return ChessColor.NONE;
+            return null;
         }
 
         public void AddPiece(ChessPiece piece)
@@ -37,15 +42,15 @@ namespace MATSEChess
             pieces.Clear();
 
             // Pawns
-            for(int i = 0; i < 8; ++i)
+            for (int i = 0; i < 8; ++i)
             {
                 pieces.Add(new Pawn(ChessColor.BLACK, new ChessBoardPosition(i, 1)));
                 pieces.Add(new Pawn(ChessColor.WHITE, new ChessBoardPosition(i, 6)));
             }
 
-            var rows = new int[]{ 0, 7 };
+            var rows = new int[] { 0, 7 };
 
-            foreach(var row in rows)
+            foreach (var row in rows)
             {
                 ChessColor color = row == 0 ? ChessColor.BLACK : ChessColor.WHITE;
 

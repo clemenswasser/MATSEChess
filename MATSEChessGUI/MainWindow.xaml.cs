@@ -15,6 +15,10 @@ namespace MATSEChessGUI
     {
         private readonly int TILE_SIZE = 64;
         private ChessRenderer renderer;
+        private ChessBoard board = new ChessBoard();
+
+        private ChessBoardPosition? selectedPos;
+        private ChessColor currentPlayer;
 
         public MainWindow()
         {
@@ -23,15 +27,20 @@ namespace MATSEChessGUI
             renderer = new ChessRenderer(TILE_SIZE);
             renderer.Initialize();
 
+            ResetGame();
             Rerender();
+        }
+
+        private void ResetGame()
+        {
+            board.Reset();
+            selectedPos = null;
+            currentPlayer = ChessColor.WHITE;
         }
 
         private void Rerender()
         {
-            ChessBoard board = new ChessBoard();
-            board.Reset();
-
-            boardImage.Source = renderer.Render(board);
+            boardImage.Source = renderer.Render(board, selectedPos);
         }
 
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)
@@ -39,7 +48,15 @@ namespace MATSEChessGUI
             var pos = e.GetPosition(boardImage);
             int relativeX = (int)Math.Floor(pos.X / TILE_SIZE);
             int relativeY = (int)Math.Floor(pos.Y / TILE_SIZE);
-            MessageBox.Show($"X: {relativeX}, Y: {relativeY}");
+
+            var boardPos = new ChessBoardPosition(relativeX, relativeY);
+            ChessPiece? selected = board.GetPositionPiece(boardPos);
+            if(selected != null && selected.Color == currentPlayer)
+            {
+                selectedPos = boardPos;
+                Rerender();
+            }
+
         }
     }
 }
