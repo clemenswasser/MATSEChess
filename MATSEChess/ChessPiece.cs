@@ -16,11 +16,22 @@ namespace MATSEChess
             this.color = color;
             this.pos = pos;
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null)
+                return false;
+            ChessPiece? piece = obj as ChessPiece;
+            if (piece == null)
+                return false;
+
+            return piece.color == color && piece.pos.Equals(pos);
+        }
     }
 
-    public class Bauer : ChessPiece
+    public class Pawn : ChessPiece
     {
-        public Bauer(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        public Pawn(ChessColor color, ChessBoardPosition pos) : base(color, pos)
         {
 
         }
@@ -37,7 +48,7 @@ namespace MATSEChess
             {
                 yield return pos.Move(0, moveDir);
 
-                if(oneForwardOccupation == ChessColor.NONE)
+                if (oneForwardOccupation == ChessColor.NONE)
                 {
                     // 2. Check two steps forward (only in initial row)
                     int initialY = color == ChessColor.BLACK ? 1 : 6;
@@ -50,15 +61,78 @@ namespace MATSEChess
 
             }
 
-            
-
-            // 3. Check attack positions
+            // 3. Check (diagonal) attack positions
             ChessBoardPosition leftPos = pos.Move(-1, moveDir);
             ChessBoardPosition rightPos = pos.Move(1, moveDir);
-            if(leftPos.Valid && state.GetPositionState(leftPos) == ChessUtils.GetOpponentColor(color))
+            if (leftPos.Valid && state.GetPositionState(leftPos) == ChessUtils.GetOpponentColor(color))
                 yield return leftPos;
-            if(rightPos.Valid && state.GetPositionState(rightPos) == ChessUtils.GetOpponentColor(color))
+            if (rightPos.Valid && state.GetPositionState(rightPos) == ChessUtils.GetOpponentColor(color))
                 yield return rightPos;
+        }
+    }
+
+    public class King : ChessPiece
+    {
+        public King(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        {
+
+        }
+
+        public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
+        {
+            yield break;
+        }
+    }
+
+    public class Rook : ChessPiece
+    {
+        public Rook(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        {
+
+        }
+
+        public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
+        {
+            yield break;
+        }
+    }
+
+    public class Bishop : ChessPiece
+    {
+        public Bishop(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        {
+
+        }
+
+        public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
+        {
+            yield break;
+        }
+    }
+
+    public class Queen : ChessPiece
+    {
+        public Queen(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        {
+
+        }
+
+        public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
+        {
+            yield break;
+        }
+    }
+
+    public class Knight : ChessPiece
+    {
+        public Knight(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        {
+
+        }
+
+        public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
+        {
+            yield break;
         }
     }
 }
