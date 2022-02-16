@@ -13,7 +13,7 @@ namespace MATSEChessGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly int TILE_SIZE = 64;
+        private static int tileSize;
         private ChessRenderer renderer;
         private ChessBoard board = new ChessBoard();
 
@@ -23,12 +23,12 @@ namespace MATSEChessGUI
         public MainWindow()
         {
             InitializeComponent();
-            
-            renderer = new ChessRenderer(TILE_SIZE);
+
+            renderer = new ChessRenderer();
             renderer.Initialize();
 
-            ResetGame();
-            Rerender();
+            boardImage.Loaded += (_, _) => { tileSize = (int)(ActualWidth / 8.0); ResetGame(); Rerender(); };
+            boardImage.SizeChanged += (_, _) => { tileSize = (int)(ActualWidth / 8.0); Rerender(); };
         }
 
         private void ResetGame()
@@ -40,18 +40,18 @@ namespace MATSEChessGUI
 
         private void Rerender()
         {
-            boardImage.Source = renderer.Render(board, selectedPos);
+            boardImage.Source = renderer.Render(board, selectedPos, tileSize);
         }
 
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(boardImage);
-            int relativeX = (int)Math.Floor(pos.X / TILE_SIZE);
-            int relativeY = (int)Math.Floor(pos.Y / TILE_SIZE);
+            int relativeX = (int)Math.Floor(pos.X / tileSize);
+            int relativeY = (int)Math.Floor(pos.Y / tileSize);
 
             var boardPos = new ChessBoardPosition(relativeX, relativeY);
             ChessPiece? selected = board.GetPositionPiece(boardPos);
-            if(selected != null && selected.Color == currentPlayer)
+            if (selected != null && selected.Color == currentPlayer)
             {
                 selectedPos = boardPos;
                 Rerender();
