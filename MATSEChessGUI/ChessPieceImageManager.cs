@@ -8,68 +8,36 @@ namespace MATSEChessGUI
 {
     public class ChessPieceImageManager
     {
-        private Dictionary<ChessPieceInstance, Bitmap> images = new Dictionary<ChessPieceInstance, Bitmap>();
-        private int imageWidth;
-        private int imageHeight;
-        private Bitmap fallback = new Bitmap(16, 16);
-        public void LoadImages()
+        private static Dictionary<ChessPieceInstance, string> imageResourcePaths = new Dictionary<ChessPieceInstance, string>()
         {
-            var uri = new Uri("/resources/pieces.png", UriKind.Relative);
-            var pieces = Application.GetResourceStream(uri);
-            Bitmap bmpOrig = new Bitmap(pieces.Stream);
+            { new ChessPieceInstance(ChessPieceType.BISHOP, ChessColor.BLACK), "/resources/Chess_bdt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.BISHOP, ChessColor.WHITE), "/resources/Chess_blt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.KING, ChessColor.BLACK), "/resources/Chess_kdt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.KING, ChessColor.WHITE), "/resources/Chess_klt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.KNIGHT, ChessColor.BLACK), "/resources/Chess_ndt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.KNIGHT, ChessColor.WHITE), "/resources/Chess_nlt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.PAWN, ChessColor.BLACK), "/resources/Chess_pdt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.PAWN, ChessColor.WHITE), "/resources/Chess_plt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.QUEEN, ChessColor.BLACK), "/resources/Chess_qdt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.QUEEN, ChessColor.WHITE), "/resources/Chess_qlt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.ROOK, ChessColor.BLACK), "/resources/Chess_rdt45.svg" },
+            { new ChessPieceInstance(ChessPieceType.ROOK, ChessColor.WHITE), "/resources/Chess_rlt45.svg" },
+        };
 
+        private static Dictionary<(ChessPieceInstance, int), Bitmap> imageCache = new Dictionary<(ChessPieceInstance, int), Bitmap>();
 
-            var pieceOrder = new ChessPieceType[] { ChessPieceType.QUEEN, ChessPieceType.KING, ChessPieceType.ROOK, ChessPieceType.KNIGHT, ChessPieceType.BISHOP, ChessPieceType.PAWN };
-            var colorOrder = new ChessColor[] { ChessColor.BLACK, ChessColor.WHITE };
-
-            imageWidth = bmpOrig.Width / pieceOrder.Length;
-            imageHeight = bmpOrig.Height / colorOrder.Length;
-
-            ReadImageTiles(bmpOrig, pieceOrder, colorOrder);
-            CreateFallbackImage();
-        }
-
-        private void ReadImageTiles(Bitmap all, ChessPieceType[] pieceOrder, ChessColor[] colorOrder)
+        public static Bitmap GetImageTile(ChessPieceType type, ChessColor color, int tileSize)
         {
-            for (var row = 0; row < colorOrder.Length; row++)
+            var chessPiece = new ChessPieceInstance(type, color);
+            var key = (chessPiece, tileSize);
+            if (!imageCache.ContainsKey(key))
             {
-                var color = colorOrder[row];
-                for (var col = 0; col < pieceOrder.Length; col++)
-                {
-                    var piece = pieceOrder[col];
-                    images[new ChessPieceInstance(piece, color)] = CopyBitmap(all, new Rectangle(col * imageWidth, row * imageHeight, imageWidth, imageHeight));
-                }
+                var uri = new Uri(imageResourcePaths[chessPiece], UriKind.Relative);
+                var p = Application.GetResourceStream(uri);
+                imageCache[key] = Svg.SvgDocument.Open<Svg.SvgDocument>(p.Stream).Draw(tileSize, tileSize);
             }
-        }
-
-        private void CreateFallbackImage()
-        {
-            fallback = new Bitmap(imageWidth, imageHeight);
-            using (Graphics g = Graphics.FromImage(fallback))
-            {
-                g.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, imageWidth, imageHeight));
-            }
-        }
-
-        public Bitmap GetImageTile(ChessPieceType type, ChessColor color)
-        {
-            var key = new ChessPieceInstance(type, color);
-            if (!images.ContainsKey(key))
-                return fallback;
-            return images[key];
-        }
-
-        static public Bitmap CopyBitmap(Bitmap srcBitmap, Rectangle section)
-        {
-            // from MSDN
-            Bitmap bmp = new Bitmap(section.Width, section.Height);
-            Graphics g = Graphics.FromImage(bmp);
-            g.DrawImage(srcBitmap, 0, 0, section, GraphicsUnit.Pixel);
-            g.Dispose();
-            return bmp;
+            return imageCache[key];
         }
     }
-
-
 }
 
