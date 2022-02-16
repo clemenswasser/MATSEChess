@@ -7,9 +7,13 @@
         mc:Ignorable="d"
         Title="MATSE Chess" Height="600" Width="800">
     <Grid>
-        <Image Name="boardImage" MouseDown="OnBoardMouseDown" HorizontalAlignment="Left" Loaded="OnLoaded" SizeChanged="OnSizeChanged" Margin="0,0,200,0"/>
-        <TextBlock x:Name="currentPlayerText" HorizontalAlignment="Right" Margin="610,10,20,0" TextWrapping="Wrap" Text="Current Player: Black" VerticalAlignment="Top" FontSize="20"/>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <Image Grid.Column="0" Name="boardImage" MouseDown="OnBoardMouseDown" Loaded="OnLoaded" SizeChanged="OnSizeChanged"/>
+        <TextBlock Grid.Column="1" Name="currentPlayerText" TextWrapping="Wrap" Text="Current Player: Black" HorizontalAlignment="Center" FontSize="20"/>
     </Grid>
 </Window>
 
