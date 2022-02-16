@@ -55,7 +55,7 @@ namespace MATSEChessGUI
             foreach (var piece in board.Pieces)
             {
                 // TODO: Generify -2 to image centering
-                g.DrawImageUnscaled(manager.GetImageTile(piece.Type, piece.Color), tileSize * piece.Position.X - 2, tileSize * piece.Position.Y, tileSize, tileSize);
+                g.DrawImage(manager.GetImageTile(piece.Type, piece.Color), tileSize * piece.Position.X - 2, tileSize * piece.Position.Y, tileSize, tileSize);
             }
         }
 
