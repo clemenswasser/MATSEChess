@@ -71,6 +71,11 @@ namespace MATSEChessGUI
             Rerender();
         }
 
+        private void OnResetClicked(object sender, RoutedEventArgs e)
+        {
+            ResetGame();
+            Rerender();
+        }
     }
 }
 
