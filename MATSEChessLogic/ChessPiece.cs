@@ -36,7 +36,7 @@
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return HashCode.Combine(color, pos);
         }
     }
 
@@ -155,10 +155,10 @@
             {
                 foreach (var dX in new[] { -1, 1, -2, 2 })
                 {
-                    if (Math.Abs(dX) == Math.Abs(dY)) 
+                    if (Math.Abs(dX) == Math.Abs(dY))
                         continue;
                     var possibleMove = pos.Move(dX, dY);
-                    if (possibleMove.Valid) 
+                    if (possibleMove.Valid)
                         yield return possibleMove;
                 }
             }

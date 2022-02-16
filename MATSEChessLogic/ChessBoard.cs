@@ -95,7 +95,7 @@ namespace MATSEChess
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return HashCode.Combine(x, y);
         }
 
         public override string ToString()
