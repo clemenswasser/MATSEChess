@@ -183,9 +183,9 @@ namespace MATSEChess
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            foreach (var dY in new[] { -1, 0, 1 })
+            for (var dY = -1; dY <= 1; ++dY)
             {
-                foreach (var dX in new[] { -1, 0, 1 })
+                for (var dX = -1; dX <= 1; ++dX)
                 {
                     if (dX == 0 && dY == 0) continue;
                     var possibleMove = pos.Move(dX, dY);
