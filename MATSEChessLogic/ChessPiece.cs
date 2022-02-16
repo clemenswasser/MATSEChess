@@ -138,11 +138,10 @@
         {
             for (int i = 1; i < 9; ++i)
             {
-                foreach (var dY in new[] { -i, 0, i })
+                foreach (var dY in new[] { -i, i })
                 {
-                    foreach (var dX in new[] { -i, 0, i })
+                    foreach (var dX in new[] { -i, i })
                     {
-                        if (Math.Abs(dX) != Math.Abs(dY) || dX == 0 && dY == 0) continue;
                         var possibleMove = pos.Move(dX, dY);
                         if (possibleMove.Valid) yield return possibleMove;
                     }
