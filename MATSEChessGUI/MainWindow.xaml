@@ -6,6 +6,6 @@
         xmlns:local="clr-namespace:MATSEChessGUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="825" Width="800">
-    <Image Name="boardImage" MouseDown="OnBoardMouseDown"/>
+    <Image Name="boardImage" MouseDown="OnBoardMouseDown" Loaded="OnLoaded" SizeChanged="OnSizeChanged"/>
 </Window>
 
