@@ -41,6 +41,11 @@ namespace MATSEChess
 
             return Type == other?.Type && Color == other?.Color;
         }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Type, Color);
+        }
     }
 
     public static class ChessUtils
