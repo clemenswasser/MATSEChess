@@ -31,6 +31,34 @@ namespace MATSEChess
 
             pieces.Add(piece);
         }
+
+        public void Reset()
+        {
+            pieces.Clear();
+
+            // Pawns
+            for(int i = 0; i < 8; ++i)
+            {
+                pieces.Add(new Pawn(ChessColor.BLACK, new ChessBoardPosition(i, 1)));
+                pieces.Add(new Pawn(ChessColor.WHITE, new ChessBoardPosition(i, 6)));
+            }
+
+            var rows = new int[]{ 0, 7 };
+
+            foreach(var row in rows)
+            {
+                ChessColor color = row == 0 ? ChessColor.BLACK : ChessColor.WHITE;
+
+                pieces.Add(new Rook(color, new ChessBoardPosition(0, row)));
+                pieces.Add(new Knight(color, new ChessBoardPosition(1, row)));
+                pieces.Add(new Bishop(color, new ChessBoardPosition(2, row)));
+                pieces.Add(new Queen(color, new ChessBoardPosition(3, row)));
+                pieces.Add(new King(color, new ChessBoardPosition(4, row)));
+                pieces.Add(new Bishop(color, new ChessBoardPosition(5, row)));
+                pieces.Add(new Knight(color, new ChessBoardPosition(6, row)));
+                pieces.Add(new Rook(color, new ChessBoardPosition(7, row)));
+            }
+        }
     }
 
     public class ChessBoardPosition

@@ -35,7 +35,7 @@ namespace MATSEChess
         private void RenderBoard()
         {
             ChessBoard board = new ChessBoard();
-            board.AddPiece(new Pawn(ChessColor.BLACK, new ChessBoardPosition(4,4)));
+            board.Reset();
 
             var bitmap = DrawBasicBoard();
             DrawPieces(bitmap, board);
@@ -67,7 +67,7 @@ namespace MATSEChess
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 foreach (var piece in board.Pieces)
                 {
-                    g.DrawImageUnscaled(manager.GetImageTile(ChessPieceType.PAWN, piece.Color), new System.Drawing.Point(TILE_SIZE * piece.Position.X, TILE_SIZE * piece.Position.Y));
+                    g.DrawImageUnscaled(manager.GetImageTile(piece.Type, piece.Color), new System.Drawing.Point(TILE_SIZE * piece.Position.X, TILE_SIZE * piece.Position.Y));
                 }
             }
 

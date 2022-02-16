@@ -4,12 +4,15 @@
     {
         protected ChessColor color;
         protected ChessBoardPosition pos;
+        protected ChessPieceType type;
 
         public ChessColor Color { get => color; }
         public ChessBoardPosition Position { get => pos; }
+
+        public ChessPieceType Type { get => type; }
         public abstract IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state);
 
-        public ChessPiece(ChessColor color, ChessBoardPosition pos)
+        public ChessPiece(ChessColor color, ChessBoardPosition pos, ChessPieceType type)
         {
             if (color == ChessColor.NONE)
             {
@@ -17,6 +20,7 @@
             }
             this.color = color;
             this.pos = pos;
+            this.type = type;
         }
 
         public override bool Equals(object? obj)
@@ -38,7 +42,7 @@
 
     public class Pawn : ChessPiece
     {
-        public Pawn(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        public Pawn(ChessColor color, ChessBoardPosition pos) : base(color, pos, ChessPieceType.PAWN)
         {
 
         }
@@ -80,7 +84,7 @@
 
     public class King : ChessPiece
     {
-        public King(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        public King(ChessColor color, ChessBoardPosition pos) : base(color, pos, ChessPieceType.KING)
         {
 
         }
@@ -101,7 +105,7 @@
 
     public class Rook : ChessPiece
     {
-        public Rook(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        public Rook(ChessColor color, ChessBoardPosition pos) : base(color, pos, ChessPieceType.ROOK)
         {
 
         }
@@ -114,7 +118,7 @@
 
     public class Bishop : ChessPiece
     {
-        public Bishop(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        public Bishop(ChessColor color, ChessBoardPosition pos) : base(color, pos, ChessPieceType.BISHOP)
         {
 
         }
@@ -127,7 +131,7 @@
 
     public class Queen : ChessPiece
     {
-        public Queen(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        public Queen(ChessColor color, ChessBoardPosition pos) : base(color, pos, ChessPieceType.QUEEN)
         {
 
         }
@@ -140,7 +144,7 @@
 
     public class Knight : ChessPiece
     {
-        public Knight(ChessColor color, ChessBoardPosition pos) : base(color, pos)
+        public Knight(ChessColor color, ChessBoardPosition pos) : base(color, pos, ChessPieceType.KNIGHT)
         {
 
         }
