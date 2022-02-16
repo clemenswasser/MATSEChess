@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The board is 8x8, where the position (0,0) is the upper left corner of the field.
 /// 
 /// The white pieces are initially place in the bottom rows (index 6+7), while the black
@@ -104,3 +104,4 @@ namespace MATSEChess
         }
     }
 }
+

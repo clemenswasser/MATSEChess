@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MATSEChess
 {
@@ -65,3 +65,4 @@ namespace MATSEChess
     }
 
 }
+

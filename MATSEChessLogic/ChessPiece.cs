@@ -1,4 +1,4 @@
-﻿namespace MATSEChess
+namespace MATSEChess
 {
     public abstract class ChessPiece
     {
@@ -112,7 +112,18 @@
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            yield break;
+            for (int i = 1; i < 9; ++i)
+            {
+                foreach (var dY in new[] { -i, 0, i })
+                {
+                    foreach (var dX in new[] { -i, 0, i })
+                    {
+                        if (Math.Abs(dX) == Math.Abs(dY)) continue;
+                        var possibleMove = pos.Move(dX, dY);
+                        if (possibleMove.Valid) yield return possibleMove;
+                    }
+                }
+            }
         }
     }
 
@@ -125,7 +136,17 @@
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            yield break;
+            for (int i = 1; i < 9; ++i)
+            {
+                foreach (var dY in new[] { -i, i })
+                {
+                    foreach (var dX in new[] { -i, i })
+                    {
+                        var possibleMove = pos.Move(dX, dY);
+                        if (possibleMove.Valid) yield return possibleMove;
+                    }
+                }
+            }
         }
     }
 
@@ -138,7 +159,18 @@
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            yield break;
+            for (int i = 1; i < 9; ++i)
+            {
+                foreach (var dY in new[] { -i, 0, i })
+                {
+                    foreach (var dX in new[] { -i, 0, i })
+                    {
+                        if (dX == 0 && dY == 0) continue;
+                        var possibleMove = pos.Move(dX, dY);
+                        if (possibleMove.Valid) yield return possibleMove;
+                    }
+                }
+            }
         }
     }
 
@@ -155,13 +187,12 @@
             {
                 foreach (var dX in new[] { -1, 1, -2, 2 })
                 {
-                    if (Math.Abs(dX) == Math.Abs(dY))
-                        continue;
+                    if (Math.Abs(dX) == Math.Abs(dY)) continue;
                     var possibleMove = pos.Move(dX, dY);
-                    if (possibleMove.Valid)
-                        yield return possibleMove;
+                    if (possibleMove.Valid) yield return possibleMove;
                 }
             }
         }
     }
 }
+
