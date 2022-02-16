@@ -142,7 +142,17 @@
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            yield break;
+            foreach (var dY in new[] { -1, 1, -2, 2 })
+            {
+                foreach (var dX in new[] { -1, 1, -2, 2 })
+                {
+                    if (Math.Abs(dX) == Math.Abs(dY)) 
+                        continue;
+                    var possibleMove = pos.Move(dX, dY);
+                    if (possibleMove.Valid) 
+                        yield return possibleMove;
+                }
+            }
         }
     }
 }
