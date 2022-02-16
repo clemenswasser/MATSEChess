@@ -10,6 +10,8 @@ namespace MATSEChess
     {
         private List<ChessPiece> pieces = new List<ChessPiece>();
 
+        public List<ChessPiece> Pieces { get { return pieces; } }
+
         public ChessColor GetPositionState(ChessBoardPosition pos)
         {
             foreach (var piece in pieces)
@@ -18,6 +20,16 @@ namespace MATSEChess
                     return piece.Color;
             }
             return ChessColor.NONE;
+        }
+
+        public void AddPiece(ChessPiece piece)
+        {
+            if(piece == null || GetPositionState(piece.Position) != ChessColor.NONE)
+            {
+                throw new ArgumentException("Invalid chess piece provided");
+            }
+
+            pieces.Add(piece);
         }
     }
 

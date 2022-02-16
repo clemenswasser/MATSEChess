@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MATSEChessGUI": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\dev\\Uni\\cs\\MATSEChess\\MATSEChess"
+    }
+  }
+}
