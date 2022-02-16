@@ -13,5 +13,17 @@ namespace MATSEChessTest
             Assert.Equal(new[] { new ChessBoardPosition(5, 4) },
                          new Pawn(ChessColor.WHITE, new ChessBoardPosition(5, 5)).GetPossibleMoves(chessBoard));
         }
+
+        [Fact]
+        public void KingTest()
+        {
+            Assert.Equal(new[] { new ChessBoardPosition(4, 4), new ChessBoardPosition(5, 4), new ChessBoardPosition(6, 4),
+                                 new ChessBoardPosition(4, 5), /* ----------------------- */ new ChessBoardPosition(6, 5),
+                                 new ChessBoardPosition(4, 6), new ChessBoardPosition(5, 6), new ChessBoardPosition(6, 6)},
+                         new King(ChessColor.WHITE, new ChessBoardPosition(5, 5)).GetPossibleMoves(chessBoard));
+
+            Assert.Equal(new[] { new ChessBoardPosition(1, 0), new ChessBoardPosition(0, 1), new ChessBoardPosition(1, 1) },
+                         new King(ChessColor.WHITE, new ChessBoardPosition(0, 0)).GetPossibleMoves(chessBoard));
+        }
     }
 }

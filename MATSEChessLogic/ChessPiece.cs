@@ -11,7 +11,7 @@
 
         public ChessPiece(ChessColor color, ChessBoardPosition pos)
         {
-            if(color == ChessColor.NONE)
+            if (color == ChessColor.NONE)
             {
                 throw new ArgumentException("The color of a chess piece must not be none");
             }
@@ -28,6 +28,11 @@
                 return false;
 
             return piece.color == color && piece.pos.Equals(pos);
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -82,7 +87,15 @@
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            yield break;
+            foreach (var dY in new[] { -1, 0, 1 })
+            {
+                foreach (var dX in new[] { -1, 0, 1 })
+                {
+                    if (dX == 0 && dY == 0) continue;
+                    var possibleMove = pos.Move(dX, dY);
+                    if (possibleMove.Valid) yield return possibleMove;
+                }
+            }
         }
     }
 
@@ -134,7 +147,17 @@
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            yield break;
+            foreach (var dY in new[] { -1, 1, -2, 2 })
+            {
+                foreach (var dX in new[] { -1, 1, -2, 2 })
+                {
+                    if (Math.Abs(dX) == Math.Abs(dY)) 
+                        continue;
+                    var possibleMove = pos.Move(dX, dY);
+                    if (possibleMove.Valid) 
+                        yield return possibleMove;
+                }
+            }
         }
     }
 }

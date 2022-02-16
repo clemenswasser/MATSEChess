@@ -65,6 +65,11 @@ namespace MATSEChess
             return pos.x == x && pos.y == y;
         }
 
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
         public override string ToString()
         {
             return $"({x}, {y})";
