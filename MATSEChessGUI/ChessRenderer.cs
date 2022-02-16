@@ -43,7 +43,6 @@ namespace MATSEChessGUI
         private static void DrawPieces(Bitmap bitmap, ChessBoard board, int tileSize)
         {
             using Graphics g = Graphics.FromImage(bitmap);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             foreach (var piece in board.Pieces)
             {
                 g.DrawImageUnscaled(ChessPieceImageManager.GetImageTile(piece.Type, piece.Color, tileSize),
@@ -61,10 +60,9 @@ namespace MATSEChessGUI
                 return;
 
             using Graphics g = Graphics.FromImage(bitmap);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
             g.FillRectangle(SELECTION_BRUSH, GetTileRectangle(selectedPos.X, selectedPos.Y, tileSize));
 
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             foreach (var pos in selected.GetPossibleMoves(board))
             {
                 g.FillEllipse(SELECTION_BRUSH, GetTileCircle(pos.X, pos.Y, tileSize));
@@ -79,7 +77,6 @@ namespace MATSEChessGUI
             }
 
             using Graphics g = Graphics.FromImage(bitmap);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.FillRectangle(b, GetTileRectangle(pos.X, pos.Y, tileSize));
         }
 
