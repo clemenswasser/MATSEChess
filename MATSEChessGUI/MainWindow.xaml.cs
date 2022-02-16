@@ -14,15 +14,11 @@ namespace MATSEChessGUI
     public partial class MainWindow : Window
     {
         private static double tileSize;
-        private ChessRenderer renderer;
         private ChessGame game = new ChessGame();
 
         public MainWindow()
         {
             InitializeComponent();
-
-            renderer = new ChessRenderer();
-            renderer.Initialize();
         }
 
         private void ResetGame()
@@ -32,7 +28,8 @@ namespace MATSEChessGUI
 
         private void Rerender()
         {
-            boardImage.Source = renderer.Render(game.Board, game.Selection, (int)tileSize);
+            boardImage.Source = ChessRenderer.Render(game.Board, game.Selection, (int)tileSize);
+            currentPlayerText.Text = $"Current Player: {(game.CurrentPlayer == ChessColor.WHITE ? "White" : "Black")}";
         }
 
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)
@@ -47,6 +44,7 @@ namespace MATSEChessGUI
         }
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            // Somehow the ActualWidth and ActualHeight of boardImage is NaN at this point...
             tileSize = Math.Min(ActualWidth, ActualHeight - 40) / 8.0;
             ResetGame();
             Rerender();
@@ -56,7 +54,7 @@ namespace MATSEChessGUI
         {
             tileSize = Math.Min(boardImage.ActualWidth, boardImage.ActualHeight) / 8.0;
 
-            if (tileSize <= 0) return;
+            if (tileSize < 1) return;
 
             Rerender();
         }
