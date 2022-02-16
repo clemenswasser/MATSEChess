@@ -230,18 +230,8 @@ namespace MATSEChess
 
         public override IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state)
         {
-            for (int i = 1; i < 9; ++i)
-            {
-                foreach (var dY in new[] { -i, 0, i })
-                {
-                    foreach (var dX in new[] { -i, 0, i })
-                    {
-                        if (dX == 0 && dY == 0) continue;
-                        var possibleMove = pos.Move(dX, dY);
-                        if (possibleMove.Valid) yield return possibleMove;
-                    }
-                }
-            }
+            foreach(var possibleMove in MoveVerticalHorizontal(state)) yield return possibleMove;
+            foreach (var possibleMove in MoveDiagonal(state)) yield return possibleMove;
         }
     }
 
