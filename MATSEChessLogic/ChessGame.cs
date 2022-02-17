@@ -92,6 +92,10 @@
             }
             if(board.Move(selection, value))
             {
+                //TODO: Increase fullmove counter if current player was black
+                //TODO: Increase halfmove clock if no pawn has been moved / no capture has been made - otherwise reset to 0
+                //TODO: Check castling availability - for rook moves and king move (queenside and kingside)
+                //TODO: Set en passant target square if eligible
                 selection = null;
                 currentPlayer = ChessUtils.GetOpponentColor(currentPlayer);
             }
