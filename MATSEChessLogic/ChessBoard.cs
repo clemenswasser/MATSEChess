@@ -67,7 +67,7 @@ namespace MATSEChess
             bool resetHalfmoves = moving.Type == ChessPieceType.PAWN;
 
             if (target != null)
-            {
+            { // Caputure another piece
                 if (!pieces.Remove(target))
                     return false; // Could not remove target element
 
@@ -98,12 +98,31 @@ namespace MATSEChess
 
             moving.Position = to;
 
+            // Castling
+            if(moving.Type == ChessPieceType.KING && Math.Abs(from.X-to.X) > 1)
+            {
+                PerformCastling(moving);
+            }
+
             // Promotions
             CheckForPromotion(moving);
 
 
             currentPlayer = ChessUtils.GetOpponentColor(currentPlayer);
             return true;
+        }
+
+        private void PerformCastling(ChessPiece movedKing)
+        {
+            var movedToLeft = movedKing.Position.X < 4;
+
+            var rook = GetPositionPiece(new ChessBoardPosition(movedToLeft ? 0 : 7, movedKing.Position.Y));
+            if(rook == null)
+            {
+                throw new InvalidDataException("Rook was not found at desired position");
+            }
+
+            rook.Position = new ChessBoardPosition(movedKing.Position.X + (movedToLeft ? 1 : -1), movedKing.Position.Y);
         }
 
         private void CheckForCastlingChange(ChessPiece moving)
