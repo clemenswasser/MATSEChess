@@ -16,6 +16,7 @@
     <None Remove="resources\Chess_ndt45.svg" />
     <None Remove="resources\Chess_nlt45.svg" />
     <None Remove="resources\Chess_pdt45.svg" />
+    <None Remove="resources\Chess_pdt45.svg.png" />
     <None Remove="resources\Chess_plt45.svg" />
     <None Remove="resources\Chess_qdt45.svg" />
     <None Remove="resources\Chess_qlt45.svg" />
@@ -40,6 +41,7 @@
     <Resource Include="resources\Chess_ndt45.svg" />
     <Resource Include="resources\Chess_nlt45.svg" />
     <Resource Include="resources\Chess_pdt45.svg" />
+    <Resource Include="resources\Chess_pdt45.svg.png" />
     <Resource Include="resources\Chess_plt45.svg" />
     <Resource Include="resources\Chess_qdt45.svg" />
     <Resource Include="resources\Chess_qlt45.svg" />
