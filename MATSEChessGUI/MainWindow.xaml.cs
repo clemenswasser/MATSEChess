@@ -41,6 +41,9 @@ namespace MATSEChessGUI
             {
                 currentPlayerText.Text = $"Current Player: {ChessUtils.ColorToString(game.Board.CurrentPlayer)}";
             }
+
+            fullmoveText.Text = $"Fullmove counter: {game.Board.FullmoveCounter}";
+            halfmoveText.Text = $"Halfmove clock: {game.Board.HalfmoveClock}";
         }
 
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)

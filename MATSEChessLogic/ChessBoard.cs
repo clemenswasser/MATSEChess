@@ -41,7 +41,7 @@ namespace MATSEChess
 
         public void AddPiece(ChessPiece piece)
         {
-            if(piece == null || GetPositionState(piece.Position) != ChessColor.NONE)
+            if (piece == null || GetPositionState(piece.Position) != ChessColor.NONE)
             {
                 throw new ArgumentException("Invalid chess piece provided");
             }
@@ -56,19 +56,34 @@ namespace MATSEChess
             if (moving == null) return false;
 
             ChessPiece? target = GetPositionPiece(to);
-            if(target != null && target.Color == moving.Color)
-            {
+            if (target != null && target.Color == moving.Color)
+            { // Trying to beat own color
                 return false;
             }
 
-            if(target != null)
+            bool resetHalfmoves = moving.Type == ChessPieceType.PAWN;
+
+            if (target != null)
             {
                 if (!pieces.Remove(target))
-                    return false;
+                    return false; // Could not remove target element
+
+                resetHalfmoves = true; // Capture has been made
             }
 
-            currentPlayer = ChessUtils.GetOpponentColor(currentPlayer);
+
+            // Halfmove clock
+            if (resetHalfmoves)
+                halfmoveClock = 0;
+            else
+                ++halfmoveClock;
+
+            // Fullmove counter
+            if (currentPlayer == ChessColor.BLACK)
+                ++fullmoveCounter;
+
             moving.Position = to;
+            currentPlayer = ChessUtils.GetOpponentColor(currentPlayer);
             return true;
         }
 
