@@ -284,8 +284,11 @@ namespace MATSEChess
             return allowedCastlings.Contains(type);
         }
 
-        public void FromFENString(string s)
+        public string? FromFENString(string s)
         {
+            if (s == null || s.Split(' ').Length != 6)
+                return "Invalid input length";
+
             pieces.Clear();
             int x = 0, y = 0;
             int end = 0;
@@ -300,7 +303,14 @@ namespace MATSEChess
                 else if (char.IsDigit(c)) x += c - '0';
                 else
                 {
-                    pieces.Add(ChessPiece.fromFEN(c, x, y));
+                    try
+                    {
+                        pieces.Add(ChessPiece.fromFEN(c, x, y));
+                    } 
+                    catch (Exception e)
+                    {
+                        return $"Could not place chess piece '{c}': {e.Message}";
+                    }
                     ++x;
                 }
 
@@ -308,11 +318,19 @@ namespace MATSEChess
             }
 
             var properties = s.Substring(end).Split().Skip(1).ToArray();
-            currentPlayer = properties[0] == "w" ? ChessColor.WHITE : ChessColor.BLACK;
-            allowedCastlings = ChessUtils.StringToCastlingTypes(properties[1]);
-            enPassantSquare = properties[2] == "-" ? null : ChessBoardPosition.FromAlgebraic(properties[2]);
-            halfmoveClock = Convert.ToInt32(properties[3]);
-            fullmoveCounter = Convert.ToInt32(properties[4]);
+            try
+            {
+                currentPlayer = properties[0] == "w" ? ChessColor.WHITE : ChessColor.BLACK;
+                allowedCastlings = ChessUtils.StringToCastlingTypes(properties[1]);
+                enPassantSquare = properties[2] == "-" ? null : ChessBoardPosition.FromAlgebraic(properties[2]);
+                halfmoveClock = Convert.ToInt32(properties[3]);
+                fullmoveCounter = Convert.ToInt32(properties[4]);
+            } 
+            catch (Exception e)
+            {
+                return $"Could not initialize fields: {e.Message}";
+            }
+            return null;
         }
     }
 

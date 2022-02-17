@@ -111,8 +111,14 @@ namespace MATSEChessGUI
 
         private void OnImportClicked(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Import from Clipboard?", "Chess Import", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                game.Board.FromFENString(Clipboard.GetText());
+            if (MessageBox.Show("Import from Clipboard?", "Chess Import", MessageBoxButton.OKCancel) == MessageBoxResult.OK) {
+                var result = game.Board.FromFENString(Clipboard.GetText());
+                if(result != null && result.Length > 0)
+                {
+                    MessageBox.Show($"Import Failed: {result}", "Chess Import", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ResetGame();
+                }
+            }
             errorPos = null;
             Rerender();
         }
