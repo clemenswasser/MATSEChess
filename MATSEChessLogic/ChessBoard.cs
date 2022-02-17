@@ -360,7 +360,7 @@ namespace MATSEChess
             }
 
             int x = input[0] - 'a';
-            int y = 8 - (int)(input[0] - '0');
+            int y = 8 - (int)(input[1] - '0');
 
             var result = new ChessBoardPosition(x, y);
             if(!result.Valid)
