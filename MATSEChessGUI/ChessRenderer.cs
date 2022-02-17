@@ -33,7 +33,7 @@ namespace MATSEChessGUI
             var bitmap = new Bitmap(boardSize, boardSize);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
-                var font = new Font("Segoe UI", tileSize / 7);
+                var font = new Font("Segoe UI", Math.Max(1, tileSize / 7));
                 g.Clear(Color.White);
                 for (int x = 0; x < 8; ++x)
                 {
