@@ -99,9 +99,8 @@ namespace MATSEChessGUI
             return ((x + y) % 2 == 0) ? DARK_BRUSH : BRIGHT_BRUSH;
         }
 
-        private static Rectangle GetTileCircle(int x, int y double sizeMult = 1)
+        private static Rectangle GetTileCircle(int x, int y, double sizeMult = 1)
         {
-            var rect = GetTileRectangle(x, y, tileSize);
             var rect = GetTileRectangle(x, y);
 
             int width = (int)(rect.Width * sizeMult);
