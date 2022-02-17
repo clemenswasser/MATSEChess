@@ -14,7 +14,7 @@ namespace MATSEChess
         private ChessColor currentPlayer;
 
         //TODO: ChessBoardPosition enPassantSquare
-        //TODO: List<???> castlingAvailabilieties
+        List<CastlingType> allowedCastlings = new List<CastlingType>(); 
 
         public int FullmoveCounter { get { return fullmoveCounter; } }
 
@@ -84,8 +84,9 @@ namespace MATSEChess
             if (currentPlayer == ChessColor.BLACK)
                 ++fullmoveCounter;
 
-            moving.Position = to;
+            CheckForCastlingChange(moving);
 
+            moving.Position = to;
 
             // Promotions
             CheckForPromotion(moving);
@@ -93,6 +94,40 @@ namespace MATSEChess
 
             currentPlayer = ChessUtils.GetOpponentColor(currentPlayer);
             return true;
+        }
+
+        private void CheckForCastlingChange(ChessPiece moving)
+        {
+            if(moving.Type == ChessPieceType.KING)
+            {
+                if(moving.Color == ChessColor.BLACK)
+                {
+                    allowedCastlings.Remove(CastlingType.BLACK_QUEENSIDE);
+                    allowedCastlings.Remove(CastlingType.BLACK_KINGSIDE);
+                } else
+                {
+                    allowedCastlings.Remove(CastlingType.WHITE_QUEENSIDE);
+                    allowedCastlings.Remove(CastlingType.WHITE_KINGSIDE);
+                }
+            } 
+            
+            if(moving.Type == ChessPieceType.ROOK)
+            {
+                if(moving.Color == ChessColor.BLACK)
+                {
+                    if (moving.Position.Y != 0)
+                        return;
+
+                    allowedCastlings.Remove(moving.Position.X == 0 ? CastlingType.BLACK_QUEENSIDE : CastlingType.BLACK_KINGSIDE);
+                } 
+                else
+                {
+                    if (moving.Position.Y != 7)
+                        return;
+
+                    allowedCastlings.Remove(moving.Position.X == 0 ? CastlingType.WHITE_QUEENSIDE : CastlingType.WHITE_KINGSIDE);
+                }
+            }
         }
 
         private void CheckForPromotion(ChessPiece piece)
@@ -113,11 +148,23 @@ namespace MATSEChess
             AddPiece(ChessPiece.Create(choice, color, pos));
         }
 
+        public string GetCastlingString()
+        {
+            var normal = String.Concat(allowedCastlings.Select(x => ChessUtils.CastlingTypeToChar(x)));
+            return normal.Length > 0 ? normal : "-";
+        }
+
         public void Reset()
         {
             halfmoveClock = 0;
             fullmoveCounter = 0;
             currentPlayer = ChessColor.WHITE;
+
+            allowedCastlings.Clear();
+            allowedCastlings.Add(CastlingType.WHITE_KINGSIDE);
+            allowedCastlings.Add(CastlingType.WHITE_QUEENSIDE);
+            allowedCastlings.Add(CastlingType.BLACK_KINGSIDE);
+            allowedCastlings.Add(CastlingType.BLACK_QUEENSIDE);
 
             pieces.Clear();
 

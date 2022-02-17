@@ -65,6 +65,7 @@ namespace MATSEChessGUI
 
             fullmoveText.Text = $"Fullmove counter: {game.Board.FullmoveCounter}";
             halfmoveText.Text = $"Halfmove clock: {game.Board.HalfmoveClock}";
+            castlingText.Text = $"Castling: {game.Board.GetCastlingString()}";
         }
 
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)

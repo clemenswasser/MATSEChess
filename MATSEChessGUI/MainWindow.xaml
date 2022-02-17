@@ -18,7 +18,8 @@
         <TextBlock Grid.Column="1" Name="currentPlayerText" TextWrapping="Wrap" Text="Current Player: Black" HorizontalAlignment="Center" FontSize="20"/>
         <TextBlock Grid.Column="1" Name="fullmoveText" TextWrapping="Wrap" Text="Fullmove counter: 0" HorizontalAlignment="Center" FontSize="20" Margin="0,25,0,0"/>
         <TextBlock Grid.Column="1" Name="halfmoveText" TextWrapping="Wrap" Text="Halfmove clock: 0" HorizontalAlignment="Center" FontSize="20" Margin="0,50,0,0"/>
-        <Button x:Name="button" Grid.Column="1" Content="Reset" HorizontalAlignment="Left" Margin="92,92,0,0" VerticalAlignment="Top" Height="43" Width="181" FontSize="24" Click="OnResetClicked"/>
+        <TextBlock Grid.Column="1" Name="castlingText" TextWrapping="Wrap" Text="Castling: KQkq" HorizontalAlignment="Center" FontSize="20" Margin="0,75,0,0"/>
+        <Button x:Name="button" Grid.Column="1" Content="Reset" HorizontalAlignment="Left" Margin="92,189,0,0" VerticalAlignment="Top" Height="43" Width="181" FontSize="24" Click="OnResetClicked"/>
     </Grid>
 </Window>
 

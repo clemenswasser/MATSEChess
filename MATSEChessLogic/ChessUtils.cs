@@ -48,8 +48,31 @@ namespace MATSEChess
         }
     }
 
+    public enum CastlingType
+    {
+        BLACK_QUEENSIDE,
+        BLACK_KINGSIDE,
+        WHITE_QUEENSIDE,
+        WHITE_KINGSIDE,
+    }
+
     public static class ChessUtils
     {
+        public static char CastlingTypeToChar(CastlingType t)
+        {
+            switch(t)
+            {
+                case CastlingType.BLACK_QUEENSIDE:
+                    return 'q';
+                case CastlingType.BLACK_KINGSIDE:
+                    return 'k';
+                case CastlingType.WHITE_QUEENSIDE:
+                    return 'Q';
+                default:
+                    return 'K';
+            }
+        }
+
         public static string ColorToString(ChessColor color)
         {
             switch (color)
