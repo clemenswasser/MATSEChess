@@ -5,6 +5,7 @@ namespace MATSEChess
         protected ChessColor color;
         protected ChessBoardPosition pos;
         protected ChessPieceType type;
+        protected bool enPassant;
 
         public ChessColor Color { get => color; }
         public ChessBoardPosition Position
@@ -13,6 +14,11 @@ namespace MATSEChess
             {
                 pos = value;
             }
+        }
+        public bool EnPassant
+        {
+            get => enPassant;
+            set { this.enPassant = value; }
         }
 
         public ChessPieceType Type { get => type; }
@@ -133,6 +139,7 @@ namespace MATSEChess
             this.color = color;
             this.pos = pos;
             this.type = type;
+            this.enPassant = false;
         }
 
         public override bool Equals(object? obj)
@@ -181,12 +188,20 @@ namespace MATSEChess
             }
 
             // 3. Check (diagonal) attack positions
-            ChessBoardPosition leftPos = pos.Move(-1, moveDir);
-            ChessBoardPosition rightPos = pos.Move(1, moveDir);
-            if (leftPos.Valid && state.GetPositionState(leftPos) == ChessUtils.GetOpponentColor(color))
-                yield return leftPos;
-            if (rightPos.Valid && state.GetPositionState(rightPos) == ChessUtils.GetOpponentColor(color))
-                yield return rightPos;
+            ChessBoardPosition topLeftPos = pos.Move(-1, moveDir);
+            ChessBoardPosition topRightPos = pos.Move(1, moveDir);
+            if (topLeftPos.Valid && state.GetPositionState(topLeftPos) == ChessUtils.GetOpponentColor(color))
+                yield return topLeftPos;
+            if (topRightPos.Valid && state.GetPositionState(topRightPos) == ChessUtils.GetOpponentColor(color))
+                yield return topRightPos;
+
+            // 4. Check EnPassant
+            ChessBoardPosition leftPos = pos.Move(-1, 0);
+            ChessBoardPosition rightPos = pos.Move(1, 0);
+            if (enPassant && state.GetPositionState(leftPos) == ChessUtils.GetOpponentColor(color))
+                yield return topLeftPos;
+            if (enPassant && state.GetPositionState(rightPos) == ChessUtils.GetOpponentColor(color))
+                yield return topRightPos;
         }
     }
 
