@@ -45,7 +45,6 @@
     <Resource Include="resources\Chess_qlt45.svg" />
     <Resource Include="resources\Chess_rdt45.svg" />
     <Resource Include="resources\Chess_rlt45.svg" />
-    <Resource Include="resources\pieces.png" />
   </ItemGroup>
 
   <ItemGroup>

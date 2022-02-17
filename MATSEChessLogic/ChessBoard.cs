@@ -154,12 +154,13 @@ namespace MATSEChess
 
         private void CheckForEnPassant(ChessPiece moving, ChessBoardPosition to, ChessBoardPosition from)
         {
-            if (moving.Type == ChessPieceType.PAWN && (to.Y == from.Y + 2 || to.Y == from.Y - 2))
+            if (moving.Type == ChessPieceType.PAWN && Math.Abs(to.Y - from.Y) == 2)
             {
                 ChessBoardPosition leftPos = to.Move(-1, 0);
                 ChessBoardPosition rightPos = to.Move(1, 0);
                 ChessPiece? leftPiece = GetPositionPiece(leftPos);
                 ChessPiece? rightPiece = GetPositionPiece(rightPos);
+
                 if (leftPiece != null && leftPiece.Color != moving.Color)
                 {
                     leftPiece.EnPassant = true;
@@ -182,7 +183,7 @@ namespace MATSEChess
             }
         }
 
-            private void CheckForPromotion(ChessPiece piece)
+        private void CheckForPromotion(ChessPiece piece)
         {
             if (OnPromotion == null || piece.Type != ChessPieceType.PAWN)
             {
@@ -359,7 +360,7 @@ namespace MATSEChess
 
         public static ChessBoardPosition FromAlgebraic(string input)
         {
-            if(input.Length != 2)
+            if (input.Length != 2)
             {
                 throw new ArgumentException("Invalid input length");
             }
@@ -368,7 +369,7 @@ namespace MATSEChess
             int y = 8 - (int)(input[1] - '0');
 
             var result = new ChessBoardPosition(x, y);
-            if(!result.Valid)
+            if (!result.Valid)
             {
                 throw new ArgumentException("Invalid position provided");
             }
