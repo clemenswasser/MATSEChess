@@ -1,4 +1,3 @@
-using System.Text;
 /// <summary>
 /// The board is 8x8, where the position (0,0) is the upper left corner of the field.
 /// 
@@ -13,9 +12,8 @@ namespace MATSEChess
         private int fullmoveCounter = 0;
         private int halfmoveClock = 0;
         private ChessColor currentPlayer;
-
-        //TODO: ChessBoardPosition enPassantSquare
-        List<CastlingType> allowedCastlings = new List<CastlingType>(); 
+        private ChessBoardPosition? enPassantSquare;
+        List<CastlingType> allowedCastlings = new List<CastlingType>();
 
         public int FullmoveCounter { get { return fullmoveCounter; } }
 
@@ -86,14 +84,32 @@ namespace MATSEChess
                 ++fullmoveCounter;
 
             CheckForCastlingChange(moving);
+            // En Passant
             if (moving.Type == ChessPieceType.PAWN && (to.Y == from.Y + 2 || to.Y == from.Y - 2))
             {
-                ChessPiece? leftPiece = GetPositionPiece(to.Move(-1, 0));
-                ChessPiece? rightPiece = GetPositionPiece(to.Move(1, 0));
+                ChessBoardPosition leftPos = to.Move(-1, 0);
+                ChessBoardPosition rightPos = to.Move(1, 0);
+                ChessPiece? leftPiece = GetPositionPiece(leftPos);
+                ChessPiece? rightPiece = GetPositionPiece(rightPos);
                 if (leftPiece != null)
+                {
                     leftPiece.EnPassant = true;
+                    enPassantSquare = leftPos;
+                }
                 if (rightPiece != null)
+                {
                     rightPiece.EnPassant = true;
+                    enPassantSquare = rightPos;
+                }
+            }
+            else
+                enPassantSquare = null;
+
+            if (moving.EnPassant)
+            {
+                ChessPiece? enPassantTarget = GetPositionPiece(to.Move(0, moving.Color == ChessColor.BLACK ? -1 : 1));
+                if (enPassantTarget != null)
+                    pieces.Remove(enPassantTarget);
             }
 
             moving.Position = to;

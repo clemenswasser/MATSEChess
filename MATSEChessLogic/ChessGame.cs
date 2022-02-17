@@ -71,6 +71,7 @@
                     if (currentlySelected.GetPossibleMoves(board).Contains(value))
                     {
                         MoveSelected(value);
+                        currentlySelected.EnPassant = false;
                     }
                     else
                     {
