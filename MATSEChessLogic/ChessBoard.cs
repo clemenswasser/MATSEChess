@@ -86,34 +86,7 @@ namespace MATSEChess
 
             CheckForCastlingChange(moving);
 
-            // En Passant
-            if (moving.Type == ChessPieceType.PAWN && (to.Y == from.Y + 2 || to.Y == from.Y - 2))
-            {
-                ChessBoardPosition leftPos = to.Move(-1, 0);
-                ChessBoardPosition rightPos = to.Move(1, 0);
-                ChessPiece? leftPiece = GetPositionPiece(leftPos);
-                ChessPiece? rightPiece = GetPositionPiece(rightPos);
-                if (leftPiece != null && leftPiece.Color != moving.Color)
-                {
-                    leftPiece.EnPassant = true;
-                    enPassantSquare = leftPos;
-                }
-                if (rightPiece != null && rightPiece.Color != moving.Color)
-                {
-                    rightPiece.EnPassant = true;
-                    enPassantSquare = rightPos;
-                }
-            }
-            else
-                enPassantSquare = null;
-
-            if (moving.EnPassant)
-            {
-                ChessPiece? enPassantTarget = GetPositionPiece(to.Move(0, moving.Color == ChessColor.BLACK ? -1 : 1));
-                if (enPassantTarget != null && enPassantTarget.Color != moving.Color)
-                    pieces.Remove(enPassantTarget);
-            }
-
+            CheckForEnPassant(moving, to, from);
 
             moving.Position = to;
 
@@ -179,7 +152,37 @@ namespace MATSEChess
             }
         }
 
-        private void CheckForPromotion(ChessPiece piece)
+        private void CheckForEnPassant(ChessPiece moving, ChessBoardPosition to, ChessBoardPosition from)
+        {
+            if (moving.Type == ChessPieceType.PAWN && (to.Y == from.Y + 2 || to.Y == from.Y - 2))
+            {
+                ChessBoardPosition leftPos = to.Move(-1, 0);
+                ChessBoardPosition rightPos = to.Move(1, 0);
+                ChessPiece? leftPiece = GetPositionPiece(leftPos);
+                ChessPiece? rightPiece = GetPositionPiece(rightPos);
+                if (leftPiece != null && leftPiece.Color != moving.Color)
+                {
+                    leftPiece.EnPassant = true;
+                    enPassantSquare = leftPos;
+                }
+                if (rightPiece != null && rightPiece.Color != moving.Color)
+                {
+                    rightPiece.EnPassant = true;
+                    enPassantSquare = rightPos;
+                }
+            }
+            else
+                enPassantSquare = null;
+
+            if (moving.EnPassant)
+            {
+                ChessPiece? enPassantTarget = GetPositionPiece(to.Move(0, moving.Color == ChessColor.BLACK ? -1 : 1));
+                if (enPassantTarget != null && enPassantTarget.Color != moving.Color)
+                    pieces.Remove(enPassantTarget);
+            }
+        }
+
+            private void CheckForPromotion(ChessPiece piece)
         {
             if (OnPromotion == null || piece.Type != ChessPieceType.PAWN)
             {
