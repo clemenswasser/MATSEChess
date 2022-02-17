@@ -1,3 +1,4 @@
+using System.Text;
 /// <summary>
 /// The board is 8x8, where the position (0,0) is the upper left corner of the field.
 /// 
@@ -266,7 +267,7 @@ namespace MATSEChess
                 if (j < 7) result.Append('/');
             }
 
-            result.Append($" {(CurrentPlayer == ChessColor.WHITE ? 'w' : 'b')} {GetCastlingString()} - {HalfmoveClock} {FullmoveCounter}");
+            result.Append($" {(CurrentPlayer == ChessColor.WHITE ? 'w' : 'b')} {GetCastlingString()} {enPassantSquare.ToString()} {HalfmoveClock} {FullmoveCounter}");
 
             return result.ToString();
         }
