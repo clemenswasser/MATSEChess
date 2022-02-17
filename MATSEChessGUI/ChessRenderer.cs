@@ -31,8 +31,7 @@ namespace MATSEChessGUI
                 {
                     for (int y = 0; y < 8; ++y)
                     {
-                        Brush b = ((x + y) % 2 == 0) ? DARK_BRUSH : BRIGHT_BRUSH;
-                        g.FillRectangle(b, GetTileRectangle(x, y, tileSize));
+                        g.FillRectangle(GetBrushFor(x, y), GetTileRectangle(x, y, tileSize));
                     }
                 }
             }
@@ -65,13 +64,21 @@ namespace MATSEChessGUI
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             foreach (var pos in selected.GetPossibleMoves(board))
             {
-                g.FillEllipse(SELECTION_BRUSH, GetTileCircle(pos.X, pos.Y, tileSize));
+                if (board.GetPositionState(pos) == ChessColor.NONE)
+                {
+                    g.FillEllipse(SELECTION_BRUSH, GetTileCircle(pos.X, pos.Y, tileSize, 0.3));
+                }
+                else
+                {
+                    g.FillRectangle(SELECTION_BRUSH, GetTileRectangle(pos.X, pos.Y, tileSize));
+                    g.FillEllipse(GetBrushFor(pos.X, pos.Y), GetTileCircle(pos.X, pos.Y, tileSize));
+                }
             }
         }
 
         private static void DrawTile(Bitmap bitmap, ChessBoardPosition? pos, int tileSize, Brush b)
         {
-            if(pos == null || !pos.Valid)
+            if (pos == null || !pos.Valid)
             {
                 return;
             }
@@ -85,10 +92,13 @@ namespace MATSEChessGUI
             return new Rectangle(tileSize * x, tileSize * y, tileSize, tileSize);
         }
 
-        private static Rectangle GetTileCircle(int x, int y, int tileSize)
+        private static Brush GetBrushFor(int x, int y)
         {
-            const double sizeMult = 0.3;
+            return ((x + y) % 2 == 0) ? DARK_BRUSH : BRIGHT_BRUSH;
+        }
 
+        private static Rectangle GetTileCircle(int x, int y, int tileSize, double sizeMult = 1)
+        {
             var rect = GetTileRectangle(x, y, tileSize);
 
             int width = (int)(rect.Width * sizeMult);
