@@ -85,6 +85,17 @@ namespace MATSEChess
                 ++fullmoveCounter;
 
             CheckForCastlingChange(moving);
+            if (moving.Type == ChessPieceType.PAWN && (to.Y == from.Y + 2 || to.Y == from.Y - 2))
+            {
+                ChessPiece? leftPiece = GetPositionPiece(to.Move(-1, 0));
+                ChessPiece? rightPiece = GetPositionPiece(to.Move(1, 0));
+                if (leftPiece != null)
+                    leftPiece.EnPassant = true;
+                if (rightPiece != null)
+                    rightPiece.EnPassant = true;
+            }
+
+            moving.Position = to;
 
             moving.Position = to;
 
