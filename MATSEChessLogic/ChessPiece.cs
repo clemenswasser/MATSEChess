@@ -191,6 +191,13 @@ namespace MATSEChess
 
             return typeIdent;
         }
+
+        public static ChessPiece fromFEN(char c, int x, int y)
+        {
+            var typeChar = char.ToLower(c);
+            var type = typeDict.First(x => x.Value == typeChar).Key;
+            return Create(type, char.IsUpper(c) ? ChessColor.WHITE : ChessColor.BLACK, new ChessBoardPosition(x, y));
+        }
     }
 
     public class Pawn : ChessPiece

@@ -27,13 +27,13 @@ namespace MATSEChess
         public ChessPieceInstance(ChessPieceType type, ChessColor color)
         {
             Type = type;
-               Color = color;
+            Color = color;
 
         }
 
         public override bool Equals(object? obj)
         {
-            if(obj == null)
+            if (obj == null)
                 return false;
             ChessPieceInstance? other = obj as ChessPieceInstance?;
             if (other == null)
@@ -60,7 +60,7 @@ namespace MATSEChess
     {
         public static char CastlingTypeToChar(CastlingType t)
         {
-            switch(t)
+            switch (t)
             {
                 case CastlingType.BLACK_QUEENSIDE:
                     return 'q';
@@ -71,6 +71,32 @@ namespace MATSEChess
                 default:
                     return 'K';
             }
+        }
+
+        public static List<CastlingType> StringToCastlingTypes(string s)
+        {
+            var castelingTypes = new List<CastlingType>();
+
+            foreach (char c in s)
+            {
+                switch (c)
+                {
+                    case 'q':
+                        castelingTypes.Add(CastlingType.BLACK_QUEENSIDE);
+                        break;
+                    case 'k':
+                        castelingTypes.Add(CastlingType.BLACK_KINGSIDE);
+                        break;
+                    case 'Q':
+                        castelingTypes.Add(CastlingType.WHITE_QUEENSIDE);
+                        break;
+                    case 'K':
+                        castelingTypes.Add(CastlingType.WHITE_KINGSIDE);
+                        break;
+                }
+            }
+
+            return castelingTypes;
         }
 
         public static string ColorToString(ChessColor color)

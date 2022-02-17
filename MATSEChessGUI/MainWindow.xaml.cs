@@ -54,16 +54,16 @@ namespace MATSEChessGUI
 
             if (game.Winner != ChessColor.NONE)
             {
-                currentPlayerText.Text = $"Winner: {ChessUtils.ColorToString(winner)}";
+                CurrentPlayerText.Text = $"Winner: {ChessUtils.ColorToString(winner)}";
             }
             else
             {
-                currentPlayerText.Text = $"Current Player: {ChessUtils.ColorToString(game.Board.CurrentPlayer)}";
+                CurrentPlayerText.Text = $"Current Player: {ChessUtils.ColorToString(game.Board.CurrentPlayer)}";
             }
 
-            fullmoveText.Text = $"Fullmove counter: {game.Board.FullmoveCounter}";
-            halfmoveText.Text = $"Halfmove clock: {game.Board.HalfmoveClock}";
-            castlingText.Text = $"Castling: {game.Board.GetCastlingString()}";
+            FullmoveText.Text = $"Fullmove counter: {game.Board.FullmoveCounter}";
+            HalfmoveText.Text = $"Halfmove clock: {game.Board.HalfmoveClock}";
+            CastlingText.Text = $"Castling: {game.Board.GetCastlingString()}";
         }
 
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)
@@ -75,6 +75,7 @@ namespace MATSEChessGUI
             var boardPos = new ChessBoardPosition(relativeX, relativeY);
             var success = game.SetSelection(boardPos);
             errorPos = success ? null : boardPos;
+
             Rerender();
         }
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -103,6 +104,13 @@ namespace MATSEChessGUI
         {
             if (MessageBox.Show("Copy to Clipboard?", "Chess Export", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 Clipboard.SetText(game.Board.ToString());
+        }
+
+        private void OnImportClicked(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Import from Clipboard?", "Chess Import", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                game.Board.FromFENString(Clipboard.GetText());
+            Rerender();
         }
     }
 }

@@ -116,7 +116,7 @@ namespace MATSEChess
             moving.Position = to;
 
             // Castling
-            if(moving.Type == ChessPieceType.KING && Math.Abs(from.X-to.X) > 1)
+            if (moving.Type == ChessPieceType.KING && Math.Abs(from.X - to.X) > 1)
             {
                 PerformCastling(moving);
             }
@@ -134,7 +134,7 @@ namespace MATSEChess
             var movedToLeft = movedKing.Position.X < 4;
 
             var rook = GetPositionPiece(new ChessBoardPosition(movedToLeft ? 0 : 7, movedKing.Position.Y));
-            if(rook == null)
+            if (rook == null)
             {
                 throw new InvalidDataException("Rook was not found at desired position");
             }
@@ -144,28 +144,29 @@ namespace MATSEChess
 
         private void CheckForCastlingChange(ChessPiece moving)
         {
-            if(moving.Type == ChessPieceType.KING)
+            if (moving.Type == ChessPieceType.KING)
             {
-                if(moving.Color == ChessColor.BLACK)
+                if (moving.Color == ChessColor.BLACK)
                 {
                     allowedCastlings.Remove(CastlingType.BLACK_QUEENSIDE);
                     allowedCastlings.Remove(CastlingType.BLACK_KINGSIDE);
-                } else
+                }
+                else
                 {
                     allowedCastlings.Remove(CastlingType.WHITE_QUEENSIDE);
                     allowedCastlings.Remove(CastlingType.WHITE_KINGSIDE);
                 }
-            } 
-            
-            if(moving.Type == ChessPieceType.ROOK)
+            }
+
+            if (moving.Type == ChessPieceType.ROOK)
             {
-                if(moving.Color == ChessColor.BLACK)
+                if (moving.Color == ChessColor.BLACK)
                 {
                     if (moving.Position.Y != 0)
                         return;
 
                     allowedCastlings.Remove(moving.Position.X == 0 ? CastlingType.BLACK_QUEENSIDE : CastlingType.BLACK_KINGSIDE);
-                } 
+                }
                 else
                 {
                     if (moving.Position.Y != 7)
@@ -275,6 +276,37 @@ namespace MATSEChess
         internal bool IsCastlingAllowed(CastlingType type)
         {
             return allowedCastlings.Contains(type);
+        }
+
+        public void FromFENString(string s)
+        {
+            pieces.Clear();
+            int x = 0, y = 0;
+            int end = 0;
+            foreach (char c in s)
+            {
+                if (c == ' ') break;
+                else if (c == '/')
+                {
+                    ++y;
+                    x = 0;
+                }
+                else if (char.IsDigit(c)) x += c - '0';
+                else
+                {
+                    pieces.Add(ChessPiece.fromFEN(c, x, y));
+                    ++x;
+                }
+
+                ++end;
+            }
+
+            var properties = s.Substring(end).Split().Skip(1).ToArray();
+            currentPlayer = properties[0] == "w" ? ChessColor.WHITE : ChessColor.BLACK;
+            allowedCastlings = ChessUtils.StringToCastlingTypes(properties[1]);
+            enPassantSquare = properties[2] == "-" ? null : ChessBoardPosition.FromAlgebraic(properties[2]);
+            halfmoveClock = Convert.ToInt32(properties[3]);
+            fullmoveCounter = Convert.ToInt32(properties[4]);
         }
     }
 
