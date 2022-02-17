@@ -1,9 +1,7 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using MATSEChess;
 
 namespace MATSEChessGUI
@@ -99,6 +97,12 @@ namespace MATSEChessGUI
         {
             ResetGame();
             Rerender();
+        }
+
+        private void OnExportClicked(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Copy to Clipboard?", "Chess Export", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                Clipboard.SetText(game.Board.ToString());
         }
     }
 }

@@ -157,6 +157,25 @@ namespace MATSEChess
         {
             return HashCode.Combine(color, pos);
         }
+
+        private static Dictionary<ChessPieceType, char> typeDict = new Dictionary<ChessPieceType, char>()
+        {
+            { ChessPieceType.KING,   'k' },
+            { ChessPieceType.QUEEN,  'q' },
+            { ChessPieceType.ROOK,   'r' },
+            { ChessPieceType.KNIGHT, 'n' },
+            { ChessPieceType.BISHOP, 'b' },
+            { ChessPieceType.PAWN,   'p' },
+        };
+
+        public override string ToString()
+        {
+            var typeIdent = typeDict[Type].ToString();
+
+            if (color == ChessColor.WHITE) typeIdent = typeIdent.ToUpper();
+
+            return typeIdent;
+        }
     }
 
     public class Pawn : ChessPiece

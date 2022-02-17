@@ -1,3 +1,4 @@
+using System.Text;
 /// <summary>
 /// The board is 8x8, where the position (0,0) is the upper left corner of the field.
 /// 
@@ -199,6 +200,40 @@ namespace MATSEChess
                 pieces.Add(new Knight(color, new ChessBoardPosition(6, row)));
                 pieces.Add(new Rook(color, new ChessBoardPosition(7, row)));
             }
+        }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+
+            for (int j = 0; j < 8; j++)
+            {
+                int empty = -1;
+                for (int i = 0; i < 8; i++)
+                {
+                    var piece = GetPositionPiece(new ChessBoardPosition(i, j));
+                    if (piece == null)
+                    {
+                        if (empty == -1) empty = i;
+                        continue;
+                    }
+
+                    if (empty != -1)
+                    {
+                        result.Append(i - empty);
+                        empty = -1;
+                    }
+
+                    result.Append(piece);
+                }
+
+                if (empty != -1) result.Append(8 - empty);
+                if (j < 7) result.Append('/');
+            }
+
+            result.Append($" {(CurrentPlayer == ChessColor.WHITE ? 'w' : 'b')} KQkq - {HalfmoveClock} {FullmoveCounter}");
+
+            return result.ToString();
         }
     }
 
