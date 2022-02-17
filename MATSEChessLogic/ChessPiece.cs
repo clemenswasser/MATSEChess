@@ -266,6 +266,9 @@ namespace MATSEChess
             {
                 foreach(var loc in MoveHorizontal(state))
                 {
+                    if (Math.Abs(loc.X - pos.X) != 2)
+                        continue;
+
                     if (loc.X < pos.X && toQueenside)
                         yield return loc;
                     else if(loc.X > pos.X && toKingside) 
