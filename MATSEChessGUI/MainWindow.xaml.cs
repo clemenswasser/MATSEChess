@@ -20,12 +20,33 @@ namespace MATSEChessGUI
         public MainWindow()
         {
             InitializeComponent();
+            ResetGame();
         }
 
         private void ResetGame()
         {
             game.Reset();
+            game.Board.OnPromotion = OnPromotion;
             errorPos = null;
+        }
+
+        private ChessPieceType OnPromotion()
+        {
+            string res;
+            do
+            {
+                res = Microsoft.VisualBasic.Interaction.InputBox("To which piece do you want to promote? (Q=Queen, K=Knight, R=Rook, B=Bishop)", "Pawn Promotion", "Q").Trim().ToUpper();
+            } while (res == null || res.Length != 1);
+
+
+            if (res.Equals("K"))
+                return ChessPieceType.KNIGHT;
+            else if (res.Equals("B"))
+                return ChessPieceType.BISHOP;
+            else if (res.Equals("R"))
+                return ChessPieceType.ROOK;
+            else
+                return ChessPieceType.QUEEN;
         }
 
         private void Rerender()

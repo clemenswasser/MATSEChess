@@ -98,11 +98,6 @@
             }
         }
 
-        public ChessGame()
-        {
-            Reset();
-        }
-
         public void Reset()
         {
             board.Reset();

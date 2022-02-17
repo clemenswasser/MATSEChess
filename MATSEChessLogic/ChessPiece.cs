@@ -104,6 +104,26 @@ namespace MATSEChess
             }
         }
 
+        public static ChessPiece Create(ChessPieceType type, ChessColor color, ChessBoardPosition pos)
+        {
+            switch (type)
+            {
+                case ChessPieceType.KING:
+                    return new King(color, pos);
+                case ChessPieceType.QUEEN:
+                    return new Queen(color, pos);
+                case ChessPieceType.ROOK:
+                    return new Rook(color, pos);
+                case ChessPieceType.BISHOP:
+                    return new Bishop(color, pos);
+                case ChessPieceType.KNIGHT:
+                    return new Knight(color, pos);
+                case ChessPieceType.PAWN:
+                default:
+                    return new Pawn(color, pos);
+            }
+        }
+
         public ChessPiece(ChessColor color, ChessBoardPosition pos, ChessPieceType type)
         {
             if (color == ChessColor.NONE)

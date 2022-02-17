@@ -24,6 +24,8 @@ namespace MATSEChess
 
         public ChessColor CurrentPlayer { get { return currentPlayer; } }
 
+        public PromotionFunction? OnPromotion { get; set; }
+
         public ChessColor GetPositionState(ChessBoardPosition pos)
         {
             return GetPositionPiece(pos)?.Color ?? ChessColor.NONE;
@@ -83,8 +85,32 @@ namespace MATSEChess
                 ++fullmoveCounter;
 
             moving.Position = to;
+
+
+            // Promotions
+            CheckForPromotion(moving);
+
+
             currentPlayer = ChessUtils.GetOpponentColor(currentPlayer);
             return true;
+        }
+
+        private void CheckForPromotion(ChessPiece piece)
+        {
+            if (OnPromotion == null || piece.Type != ChessPieceType.PAWN)
+            {
+                return;
+            }
+            if ((piece.Color == ChessColor.WHITE && piece.Position.Y != 0) || (piece.Color == ChessColor.BLACK && piece.Position.Y != 7))
+            {
+                return;
+            }
+
+            var choice = OnPromotion();
+            var pos = piece.Position;
+            var color = piece.Color;
+            pieces.Remove(piece);
+            AddPiece(ChessPiece.Create(choice, color, pos));
         }
 
         public void Reset()
@@ -162,5 +188,8 @@ namespace MATSEChess
             return $"({x}, {y})";
         }
     }
+
+
+    public delegate ChessPieceType PromotionFunction();
 }
 
