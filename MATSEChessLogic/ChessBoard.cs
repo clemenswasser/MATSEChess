@@ -239,6 +239,11 @@ namespace MATSEChess
             return HashCode.Combine(x, y);
         }
 
+        public string ToAlgebraic()
+        {
+            return $"{(char)((int)'a' + x)}{8-y}";
+        }
+
         public override string ToString()
         {
             return $"({x}, {y})";
