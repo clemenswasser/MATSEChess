@@ -33,11 +33,11 @@ namespace MATSEChessGUI
             string res;
             do
             {
-                res = Microsoft.VisualBasic.Interaction.InputBox("To which piece do you want to promote? (Q=Queen, K=Knight, R=Rook, B=Bishop)", "Pawn Promotion", "Q").Trim().ToUpper();
+                res = Microsoft.VisualBasic.Interaction.InputBox("To which piece do you want to promote? (Q=Queen, N=Knight, R=Rook, B=Bishop)", "Pawn Promotion", "Q").Trim().ToUpper();
             } while (res == null || res.Length != 1);
 
 
-            if (res.Equals("K"))
+            if (res.Equals("N"))
                 return ChessPieceType.KNIGHT;
             else if (res.Equals("B"))
                 return ChessPieceType.BISHOP;
@@ -110,6 +110,7 @@ namespace MATSEChessGUI
         {
             if (MessageBox.Show("Import from Clipboard?", "Chess Import", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 game.Board.FromFENString(Clipboard.GetText());
+            errorPos = null;
             Rerender();
         }
     }
