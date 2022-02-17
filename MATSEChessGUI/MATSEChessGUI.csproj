@@ -21,6 +21,8 @@
     <None Remove="resources\Chess_qlt45.svg" />
     <None Remove="resources\Chess_rdt45.svg" />
     <None Remove="resources\Chess_rlt45.svg" />
+    <None Remove="resources\Chess_udt45.svg" />
+    <None Remove="resources\Chess_ult45.svg" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
@@ -45,6 +47,8 @@
     <Resource Include="resources\Chess_qlt45.svg" />
     <Resource Include="resources\Chess_rdt45.svg" />
     <Resource Include="resources\Chess_rlt45.svg" />
+    <Resource Include="resources\Chess_udt45.svg" />
+    <Resource Include="resources\Chess_ult45.svg" />
   </ItemGroup>
 
 </Project>

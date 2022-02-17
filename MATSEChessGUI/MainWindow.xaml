@@ -26,7 +26,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" FontSize="20" TextWrapping="Wrap" Name="CurrentPlayerText" Text="Current Player: Black"/>
+            <TextBlock Grid.Row="0" FontSize="20" TextWrapping="Wrap" Name="CurrentPlayerText" Text="Current Player: Black" MouseLeftButtonDown="OnSpecialFeatureTriggered"/>
             <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap" Name="FullmoveText" Text="Fullmove counter: 0"/>
             <TextBlock Grid.Row="2" FontSize="20" TextWrapping="Wrap" Name="HalfmoveText" Text="Halfmove clock: 0"/>
             <TextBlock Grid.Row="3" FontSize="20" TextWrapping="Wrap" Name="CastlingText" Text="Castling: KQkq"/>

@@ -40,6 +40,18 @@ namespace MATSEChessGUI
             }
             return imageCache[key];
         }
+
+        internal static void DeployUnicorns()
+        {
+            imageCache.Clear();
+
+            var kd = new ChessPieceInstance(ChessPieceType.KNIGHT, ChessColor.BLACK);
+            var kl = new ChessPieceInstance(ChessPieceType.KNIGHT, ChessColor.WHITE);
+
+
+            imageResourcePaths[kd] = ResourcePath("Chess_udt45.svg");
+            imageResourcePaths[kl] = ResourcePath("Chess_ult45.svg");
+        }
     }
 }
 

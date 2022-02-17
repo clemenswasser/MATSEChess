@@ -122,6 +122,12 @@ namespace MATSEChessGUI
             errorPos = null;
             Rerender();
         }
+
+        private void OnSpecialFeatureTriggered(object sender, MouseButtonEventArgs e)
+        {
+            ChessPieceImageManager.DeployUnicorns();
+            Rerender();
+        }
     }
 }
 
