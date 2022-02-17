@@ -319,6 +319,25 @@ namespace MATSEChess
         {
             return $"{(char)((int)'a' + x)}{8 - y}";
         }
+
+        public static ChessBoardPosition FromAlgebraic(string input)
+        {
+            if(input.Length != 2)
+            {
+                throw new ArgumentException("Invalid input length");
+            }
+
+            int x = input[0] - 'a';
+            int y = 8 - (int)(input[0] - '0');
+
+            var result = new ChessBoardPosition(x, y);
+            if(!result.Valid)
+            {
+                throw new ArgumentException("Invalid position provided");
+            }
+            return result;
+
+        }
     }
 
 
