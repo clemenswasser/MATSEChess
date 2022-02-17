@@ -97,8 +97,6 @@ namespace MATSEChess
 
             moving.Position = to;
 
-            moving.Position = to;
-
             // Promotions
             CheckForPromotion(moving);
 
