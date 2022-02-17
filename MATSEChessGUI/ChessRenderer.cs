@@ -33,13 +33,30 @@ namespace MATSEChessGUI
             var bitmap = new Bitmap(boardSize, boardSize);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
+                var font = new Font("Segoe UI", Math.Max(1, tileSize / 7));
                 g.Clear(Color.White);
                 for (int x = 0; x < 8; ++x)
                 {
                     for (int y = 0; y < 8; ++y)
                     {
                         g.FillRectangle(GetBrushFor(x, y), GetTileRectangle(x, y));
+
+                        if (x == 7)
+                        {
+                            var numRect = GetTileRectangle(x, y);
+                            numRect.Offset(0, -(tileSize / 20));
+
+                            StringFormat drawFormat = new StringFormat();
+                            drawFormat.Alignment = StringAlignment.Far;
+
+                            g.DrawString(((char)('8' - y)).ToString(), font, (y & 1) == 1 ? BRIGHT_BRUSH : DARK_BRUSH, numRect, drawFormat);
+                        }
                     }
+
+                    var letRect = GetTileRectangle(x, 7);
+                    letRect.Offset(0, -(tileSize / 20));
+
+                    g.DrawString(((char)('A' + x)).ToString(), font, (x & 1) == 1 ? BRIGHT_BRUSH : DARK_BRUSH, letRect);
                 }
             }
 

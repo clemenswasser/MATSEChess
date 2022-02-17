@@ -89,8 +89,8 @@ namespace MATSEChessGUI
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            boardSize = (int)Math.Round(Math.Min(boardCanvas.ActualWidth, boardCanvas.ActualHeight));
-            tileSize = (int)Math.Floor(boardSize / 8.0);
+            boardSize = (int)Math.Min(boardCanvas.ActualWidth, boardCanvas.ActualHeight);
+            tileSize = (int)(boardSize / 8.0);
 
             if (tileSize < 1) return;
 
