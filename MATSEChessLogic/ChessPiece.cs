@@ -74,12 +74,12 @@ namespace MATSEChess
 
         public IEnumerable<ChessBoardPosition> MoveVerticalHorizontal(ChessBoard state)
         {
-            foreach(var i in MoveVertical(state))
+            foreach (var i in MoveVertical(state))
                 yield return i;
 
             foreach (var i in MoveHorizontal(state))
                 yield return i;
-            
+
         }
         public IEnumerable<ChessBoardPosition> MoveDiagonal(ChessBoard state)
         {
@@ -269,16 +269,16 @@ namespace MATSEChess
             var toQueenside = (color == ChessColor.BLACK && state.IsCastlingAllowed(CastlingType.BLACK_QUEENSIDE)) || (color == ChessColor.WHITE && state.IsCastlingAllowed(CastlingType.WHITE_QUEENSIDE));
             var toKingside = (color == ChessColor.BLACK && state.IsCastlingAllowed(CastlingType.BLACK_KINGSIDE)) || (color == ChessColor.WHITE && state.IsCastlingAllowed(CastlingType.WHITE_KINGSIDE));
 
-            if(toQueenside || toKingside)
+            if (toQueenside || toKingside)
             {
-                foreach(var loc in MoveHorizontal(state))
+                foreach (var loc in MoveHorizontal(state))
                 {
                     if (Math.Abs(loc.X - pos.X) != 2)
                         continue;
 
                     if (loc.X < pos.X && toQueenside)
                         yield return loc;
-                    else if(loc.X > pos.X && toKingside) 
+                    else if (loc.X > pos.X && toKingside)
                         yield return loc;
                 }
             }

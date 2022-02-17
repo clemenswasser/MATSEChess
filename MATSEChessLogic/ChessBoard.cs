@@ -306,7 +306,7 @@ namespace MATSEChess
                     try
                     {
                         pieces.Add(ChessPiece.fromFEN(c, x, y));
-                    } 
+                    }
                     catch (Exception e)
                     {
                         return $"Could not place chess piece '{c}': {e.Message}";
@@ -325,7 +325,7 @@ namespace MATSEChess
                 enPassantSquare = properties[2] == "-" ? null : ChessBoardPosition.FromAlgebraic(properties[2]);
                 halfmoveClock = Convert.ToInt32(properties[3]);
                 fullmoveCounter = Convert.ToInt32(properties[4]);
-            } 
+            }
             catch (Exception e)
             {
                 return $"Could not initialize fields: {e.Message}";
