@@ -13,7 +13,7 @@ namespace MATSEChessGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static double tileSize;
+        private static int tileSize;
         private ChessGame game = new ChessGame();
         private ChessBoardPosition? errorPos;
 
@@ -30,13 +30,14 @@ namespace MATSEChessGUI
 
         private void Rerender()
         {
-            boardImage.Source = ChessRenderer.Render(game.Board, game.Selection, errorPos, (int)tileSize);
+            boardImage.Source = ChessRenderer.Render(game.Board, game.Selection, errorPos, tileSize);
             ChessColor winner = game.Winner;
 
-            if(game.Winner != ChessColor.NONE)
+            if (game.Winner != ChessColor.NONE)
             {
                 currentPlayerText.Text = $"Winner: {ChessUtils.ColorToString(winner)}";
-            } else
+            }
+            else
             {
                 currentPlayerText.Text = $"Current Player: {ChessUtils.ColorToString(game.CurrentPlayer)}";
             }
@@ -55,14 +56,14 @@ namespace MATSEChessGUI
         }
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            // Calculate a initial size from the window dimensions
-            tileSize = Math.Min(ActualWidth, ActualHeight - 40) / 8.0;
-            Rerender();
+            // Dummy BitMap
+            var bmp = new Bitmap(1, 1);
+            boardImage.Source = ChessRenderer.BitmapToImageSource(bmp);
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            tileSize = Math.Min(boardImage.ActualWidth, boardImage.ActualHeight) / 8.0;
+            tileSize = (int)Math.Floor(Math.Min(boardCanvas.ActualWidth, boardCanvas.ActualHeight) / 8.0);
 
             if (tileSize < 1) return;
 

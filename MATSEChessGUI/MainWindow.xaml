@@ -12,7 +12,9 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Image Grid.Column="0" Name="boardImage" MouseDown="OnBoardMouseDown" Loaded="OnLoaded" SizeChanged="OnSizeChanged"/>
+        <Grid Grid.Column="0" Name="boardCanvas">
+            <Image Name="boardImage" MouseDown="OnBoardMouseDown" Loaded="OnLoaded" SizeChanged="OnSizeChanged"/>
+        </Grid>
         <TextBlock Grid.Column="1" Name="currentPlayerText" TextWrapping="Wrap" Text="Current Player: Black" HorizontalAlignment="Center" FontSize="20"/>
         <Button x:Name="button" Grid.Column="1" Content="Reset" HorizontalAlignment="Center" Margin="0,48,0,0" VerticalAlignment="Top" Height="43" Width="181" FontSize="24" Click="OnResetClicked"/>
     </Grid>

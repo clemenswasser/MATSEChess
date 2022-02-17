@@ -12,17 +12,19 @@ namespace MATSEChessGUI
         private static SolidBrush DARK_BRUSH = new SolidBrush(Color.FromArgb(255, 181, 136, 99));
         private static Brush SELECTION_BRUSH = new SolidBrush(Color.FromArgb(255, 130, 151, 105));
         private static Brush ERROR_BRUSH = new SolidBrush(Color.FromArgb(255, 216, 52, 52));
+        public static int tileSize;
 
-        public static BitmapImage Render(ChessBoard board, ChessBoardPosition? selectedPos, ChessBoardPosition? errorPos, int tileSize)
+        public static BitmapImage Render(ChessBoard board, ChessBoardPosition? selectedPos, ChessBoardPosition? errorPos, int inTileSize)
         {
-            var bitmap = DrawBasicBoard(tileSize);
-            DrawSelection(bitmap, board, selectedPos, tileSize);
-            DrawTile(bitmap, errorPos, tileSize, ERROR_BRUSH);
-            DrawPieces(bitmap, board, tileSize);
+            tileSize = inTileSize;
+            var bitmap = DrawBasicBoard();
+            DrawSelection(bitmap, board, selectedPos);
+            DrawTile(bitmap, errorPos, ERROR_BRUSH);
+            DrawPieces(bitmap, board);
             return BitmapToImageSource(bitmap);
         }
 
-        private static Bitmap DrawBasicBoard(int tileSize)
+        private static Bitmap DrawBasicBoard()
         {
             var bitmap = new Bitmap(tileSize * 8, tileSize * 8);
             using (Graphics g = Graphics.FromImage(bitmap))
@@ -31,7 +33,7 @@ namespace MATSEChessGUI
                 {
                     for (int y = 0; y < 8; ++y)
                     {
-                        g.FillRectangle(GetBrushFor(x, y), GetTileRectangle(x, y, tileSize));
+                        g.FillRectangle(GetBrushFor(x, y), GetTileRectangle(x, y));
                     }
                 }
             }
@@ -39,7 +41,7 @@ namespace MATSEChessGUI
             return bitmap;
         }
 
-        private static void DrawPieces(Bitmap bitmap, ChessBoard board, int tileSize)
+        private static void DrawPieces(Bitmap bitmap, ChessBoard board)
         {
             using Graphics g = Graphics.FromImage(bitmap);
             foreach (var piece in board.Pieces)
@@ -49,7 +51,7 @@ namespace MATSEChessGUI
             }
         }
 
-        private static void DrawSelection(Bitmap bitmap, ChessBoard board, ChessBoardPosition? selectedPos, int tileSize)
+        private static void DrawSelection(Bitmap bitmap, ChessBoard board, ChessBoardPosition? selectedPos)
         {
             if (selectedPos == null)
                 return;
@@ -59,24 +61,24 @@ namespace MATSEChessGUI
                 return;
 
             using Graphics g = Graphics.FromImage(bitmap);
-            g.FillRectangle(SELECTION_BRUSH, GetTileRectangle(selectedPos.X, selectedPos.Y, tileSize));
+            g.FillRectangle(SELECTION_BRUSH, GetTileRectangle(selectedPos.X, selectedPos.Y));
 
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             foreach (var pos in selected.GetPossibleMoves(board))
             {
                 if (board.GetPositionState(pos) == ChessColor.NONE)
                 {
-                    g.FillEllipse(SELECTION_BRUSH, GetTileCircle(pos.X, pos.Y, tileSize, 0.3));
+                    g.FillEllipse(SELECTION_BRUSH, GetTileCircle(pos.X, pos.Y, 0.3));
                 }
                 else
                 {
-                    g.FillRectangle(SELECTION_BRUSH, GetTileRectangle(pos.X, pos.Y, tileSize));
-                    g.FillEllipse(GetBrushFor(pos.X, pos.Y), GetTileCircle(pos.X, pos.Y, tileSize));
+                    g.FillRectangle(SELECTION_BRUSH, GetTileRectangle(pos.X, pos.Y));
+                    g.FillEllipse(GetBrushFor(pos.X, pos.Y), GetTileCircle(pos.X, pos.Y));
                 }
             }
         }
 
-        private static void DrawTile(Bitmap bitmap, ChessBoardPosition? pos, int tileSize, Brush b)
+        private static void DrawTile(Bitmap bitmap, ChessBoardPosition? pos, Brush b)
         {
             if (pos == null || !pos.Valid)
             {
@@ -84,10 +86,10 @@ namespace MATSEChessGUI
             }
 
             using Graphics g = Graphics.FromImage(bitmap);
-            g.FillRectangle(b, GetTileRectangle(pos.X, pos.Y, tileSize));
+            g.FillRectangle(b, GetTileRectangle(pos.X, pos.Y));
         }
 
-        private static Rectangle GetTileRectangle(int x, int y, int tileSize)
+        private static Rectangle GetTileRectangle(int x, int y)
         {
             return new Rectangle(tileSize * x, tileSize * y, tileSize, tileSize);
         }
@@ -97,9 +99,10 @@ namespace MATSEChessGUI
             return ((x + y) % 2 == 0) ? DARK_BRUSH : BRIGHT_BRUSH;
         }
 
-        private static Rectangle GetTileCircle(int x, int y, int tileSize, double sizeMult = 1)
+        private static Rectangle GetTileCircle(int x, int y double sizeMult = 1)
         {
             var rect = GetTileRectangle(x, y, tileSize);
+            var rect = GetTileRectangle(x, y);
 
             int width = (int)(rect.Width * sizeMult);
             int height = (int)(rect.Height * sizeMult);
@@ -109,7 +112,7 @@ namespace MATSEChessGUI
             return new Rectangle(adjX, adjY, width, height);
         }
 
-        private static BitmapImage BitmapToImageSource(Bitmap bitmap)
+        public static BitmapImage BitmapToImageSource(Bitmap bitmap)
         {
             using (MemoryStream memory = new MemoryStream())
             {
