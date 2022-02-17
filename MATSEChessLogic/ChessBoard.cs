@@ -85,6 +85,7 @@ namespace MATSEChess
                 ++fullmoveCounter;
 
             CheckForCastlingChange(moving);
+
             // En Passant
             if (moving.Type == ChessPieceType.PAWN && (to.Y == from.Y + 2 || to.Y == from.Y - 2))
             {
@@ -92,12 +93,12 @@ namespace MATSEChess
                 ChessBoardPosition rightPos = to.Move(1, 0);
                 ChessPiece? leftPiece = GetPositionPiece(leftPos);
                 ChessPiece? rightPiece = GetPositionPiece(rightPos);
-                if (leftPiece != null)
+                if (leftPiece != null && leftPiece.Color != moving.Color)
                 {
                     leftPiece.EnPassant = true;
                     enPassantSquare = leftPos;
                 }
-                if (rightPiece != null)
+                if (rightPiece != null && rightPiece.Color != moving.Color)
                 {
                     rightPiece.EnPassant = true;
                     enPassantSquare = rightPos;
@@ -109,9 +110,10 @@ namespace MATSEChess
             if (moving.EnPassant)
             {
                 ChessPiece? enPassantTarget = GetPositionPiece(to.Move(0, moving.Color == ChessColor.BLACK ? -1 : 1));
-                if (enPassantTarget != null)
+                if (enPassantTarget != null && enPassantTarget.Color != moving.Color)
                     pieces.Remove(enPassantTarget);
             }
+
 
             moving.Position = to;
 
