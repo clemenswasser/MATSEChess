@@ -267,7 +267,7 @@ namespace MATSEChess
                 if (j < 7) result.Append('/');
             }
 
-            result.Append($" {(CurrentPlayer == ChessColor.WHITE ? 'w' : 'b')} {GetCastlingString()} {enPassantSquare.ToString()} {HalfmoveClock} {FullmoveCounter}");
+            result.Append($" {(CurrentPlayer == ChessColor.WHITE ? 'w' : 'b')} {GetCastlingString()} {(enPassantSquare != null ? enPassantSquare.ToString() : '-')} {HalfmoveClock} {FullmoveCounter}");
 
             return result.ToString();
         }
