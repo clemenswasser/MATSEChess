@@ -231,9 +231,14 @@ namespace MATSEChess
                 if (j < 7) result.Append('/');
             }
 
-            result.Append($" {(CurrentPlayer == ChessColor.WHITE ? 'w' : 'b')} KQkq - {HalfmoveClock} {FullmoveCounter}");
+            result.Append($" {(CurrentPlayer == ChessColor.WHITE ? 'w' : 'b')} {GetCastlingString()} - {HalfmoveClock} {FullmoveCounter}");
 
             return result.ToString();
+        }
+
+        internal bool IsCastlingAllowed(CastlingType type)
+        {
+            return allowedCastlings.Contains(type);
         }
     }
 

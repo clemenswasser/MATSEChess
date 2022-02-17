@@ -23,7 +23,8 @@ namespace MATSEChess
 
         public ChessPieceType Type { get => type; }
         public abstract IEnumerable<ChessBoardPosition> GetPossibleMoves(ChessBoard state);
-        public IEnumerable<ChessBoardPosition> MoveVerticalHorizontal(ChessBoard state)
+
+        public IEnumerable<ChessBoardPosition> MoveVertical(ChessBoard state)
         {
             //Move up
             for (int i = 1; i < 9; ++i)
@@ -45,6 +46,10 @@ namespace MATSEChess
                 if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
                     break;
             }
+        }
+
+        public IEnumerable<ChessBoardPosition> MoveHorizontal(ChessBoard state)
+        {
             //Move left
             for (int i = 1; i < 9; ++i)
             {
@@ -65,6 +70,16 @@ namespace MATSEChess
                 if (state.GetPositionState(possibleMove) == ChessUtils.GetOpponentColor(color))
                     break;
             }
+        }
+
+        public IEnumerable<ChessBoardPosition> MoveVerticalHorizontal(ChessBoard state)
+        {
+            foreach(var i in MoveVertical(state))
+                yield return i;
+
+            foreach (var i in MoveHorizontal(state))
+                yield return i;
+            
         }
         public IEnumerable<ChessBoardPosition> MoveDiagonal(ChessBoard state)
         {
@@ -242,6 +257,22 @@ namespace MATSEChess
                     if (possibleMove.Valid && state.GetPositionState(possibleMove) != color) yield return possibleMove;
                 }
             }
+
+
+            var toQueenside = (color == ChessColor.BLACK && state.IsCastlingAllowed(CastlingType.BLACK_QUEENSIDE)) || (color == ChessColor.WHITE && state.IsCastlingAllowed(CastlingType.WHITE_QUEENSIDE));
+            var toKingside = (color == ChessColor.BLACK && state.IsCastlingAllowed(CastlingType.BLACK_KINGSIDE)) || (color == ChessColor.WHITE && state.IsCastlingAllowed(CastlingType.WHITE_KINGSIDE));
+
+            if(toQueenside || toKingside)
+            {
+                foreach(var loc in MoveHorizontal(state))
+                {
+                    if (loc.X < pos.X && toQueenside)
+                        yield return loc;
+                    else if(loc.X > pos.X && toKingside) 
+                        yield return loc;
+                }
+            }
+
         }
     }
 
