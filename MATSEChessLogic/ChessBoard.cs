@@ -9,8 +9,20 @@ namespace MATSEChess
     public class ChessBoard
     {
         private List<ChessPiece> pieces = new List<ChessPiece>();
+        private int fullmoveCounter = 0;
+        private int halfmoveClock = 0;
+        private ChessColor currentPlayer;
+
+        //TODO: ChessBoardPosition enPassantSquare
+        //TODO: List<???> castlingAvailabilieties
+
+        public int FullmoveCounter { get { return fullmoveCounter; } }
+
+        public int HalfmoveClock { get { return halfmoveClock; } }
 
         public List<ChessPiece> Pieces { get { return pieces; } }
+
+        public ChessColor CurrentPlayer { get { return currentPlayer; } }
 
         public ChessColor GetPositionState(ChessBoardPosition pos)
         {
@@ -55,12 +67,17 @@ namespace MATSEChess
                     return false;
             }
 
+            currentPlayer = ChessUtils.GetOpponentColor(currentPlayer);
             moving.Position = to;
             return true;
         }
 
         public void Reset()
         {
+            halfmoveClock = 0;
+            fullmoveCounter = 0;
+            currentPlayer = ChessColor.WHITE;
+
             pieces.Clear();
 
             // Pawns

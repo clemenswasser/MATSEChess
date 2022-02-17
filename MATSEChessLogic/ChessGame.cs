@@ -4,7 +4,7 @@
     {
         private ChessBoard board = new ChessBoard();
         private ChessBoardPosition? selection;
-        private ChessColor currentPlayer;
+
         public ChessBoard Board { get { return board; } }
 
         public ChessColor Winner
@@ -18,8 +18,6 @@
                 return kings[0].Color;
             }
         }
-
-        public ChessColor CurrentPlayer { get { return currentPlayer; } }
 
         public ChessBoardPosition? Selection
         {
@@ -46,19 +44,19 @@
                 if (clickedPos == null) // Clicked empty tile
                     return true;
 
-                if (clickedPos.Color == currentPlayer)
+                if (clickedPos.Color == board.CurrentPlayer)
                 {
                     selection = value;
                     return true;
                 } 
-                else if(clickedPos != null && clickedPos.Color == ChessUtils.GetOpponentColor(CurrentPlayer))
+                else if(clickedPos != null && clickedPos.Color == ChessUtils.GetOpponentColor(board.CurrentPlayer))
                 { // Clicked different team
                     return false;
                 }
             }
             else // Already selected something
             {
-                if (clickedPos != null && clickedPos.Color == currentPlayer) // Change selection
+                if (clickedPos != null && clickedPos.Color == board.CurrentPlayer) // Change selection
                 {
                     selection = value;
                 }
@@ -97,7 +95,6 @@
                 //TODO: Check castling availability - for rook moves and king move (queenside and kingside)
                 //TODO: Set en passant target square if eligible
                 selection = null;
-                currentPlayer = ChessUtils.GetOpponentColor(currentPlayer);
             }
         }
 
@@ -110,7 +107,6 @@
         {
             board.Reset();
             selection = null;
-            currentPlayer = ChessColor.WHITE;
         }
 
     }

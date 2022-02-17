@@ -39,7 +39,7 @@ namespace MATSEChessGUI
             }
             else
             {
-                currentPlayerText.Text = $"Current Player: {ChessUtils.ColorToString(game.CurrentPlayer)}";
+                currentPlayerText.Text = $"Current Player: {ChessUtils.ColorToString(game.Board.CurrentPlayer)}";
             }
         }
 
