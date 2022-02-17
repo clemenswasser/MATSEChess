@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0" Name="boardCanvas">
-            <Image Name="boardImage" MouseDown="OnBoardMouseDown" Loaded="OnLoaded" SizeChanged="OnSizeChanged"/>
+            <Image Name="boardImage" MouseDown="OnBoardMouseDown" Loaded="OnLoaded" SizeChanged="OnSizeChanged" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
         </Grid>
         <Grid Grid.Column="1" Name="sidePanel" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Grid.RowDefinitions>

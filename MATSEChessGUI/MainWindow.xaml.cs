@@ -12,6 +12,7 @@ namespace MATSEChessGUI
     public partial class MainWindow : Window
     {
         private static int tileSize;
+        private static int boardSize;
         private ChessGame game = new ChessGame();
         private ChessBoardPosition? errorPos;
 
@@ -49,7 +50,7 @@ namespace MATSEChessGUI
 
         private void Rerender()
         {
-            boardImage.Source = ChessRenderer.Render(game.Board, game.Selection, errorPos, tileSize);
+            boardImage.Source = ChessRenderer.Render(game.Board, game.Selection, errorPos, tileSize, boardSize);
             ChessColor winner = game.Winner;
 
             if (game.Winner != ChessColor.NONE)
@@ -69,8 +70,9 @@ namespace MATSEChessGUI
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(boardImage);
-            int relativeX = (int)(pos.X / tileSize);
-            int relativeY = (int)(pos.Y / tileSize);
+            var delta = (boardSize - tileSize * 8) / 2;
+            int relativeX = (int)((pos.X - delta) / tileSize);
+            int relativeY = (int)((pos.Y - delta) / tileSize);;
 
             var boardPos = new ChessBoardPosition(relativeX, relativeY);
             var success = game.SetSelection(boardPos);
@@ -87,7 +89,8 @@ namespace MATSEChessGUI
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            tileSize = (int)Math.Floor(Math.Min(boardCanvas.ActualWidth, boardCanvas.ActualHeight) / 8.0);
+            boardSize = (int)Math.Round(Math.Min(boardCanvas.ActualWidth, boardCanvas.ActualHeight));
+            tileSize = (int)Math.Floor(boardSize / 8.0);
 
             if (tileSize < 1) return;
 

@@ -13,10 +13,14 @@ namespace MATSEChessGUI
         private static Brush SELECTION_BRUSH = new SolidBrush(Color.FromArgb(255, 130, 151, 105));
         private static Brush ERROR_BRUSH = new SolidBrush(Color.FromArgb(255, 216, 52, 52));
         public static int tileSize;
+        public static int boardSize;
+        public static int delta;
 
-        public static BitmapImage Render(ChessBoard board, ChessBoardPosition? selectedPos, ChessBoardPosition? errorPos, int inTileSize)
+        public static BitmapImage Render(ChessBoard board, ChessBoardPosition? selectedPos, ChessBoardPosition? errorPos, int inTileSize, int inBoardSize)
         {
+            boardSize = inBoardSize;
             tileSize = inTileSize;
+            delta = (inBoardSize - inTileSize * 8) / 2;
             var bitmap = DrawBasicBoard();
             DrawSelection(bitmap, board, selectedPos);
             DrawTile(bitmap, errorPos, ERROR_BRUSH);
@@ -26,9 +30,10 @@ namespace MATSEChessGUI
 
         private static Bitmap DrawBasicBoard()
         {
-            var bitmap = new Bitmap(tileSize * 8, tileSize * 8);
+            var bitmap = new Bitmap(boardSize, boardSize);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
+                g.Clear(Color.White);
                 for (int x = 0; x < 8; ++x)
                 {
                     for (int y = 0; y < 8; ++y)
@@ -47,7 +52,7 @@ namespace MATSEChessGUI
             foreach (var piece in board.Pieces)
             {
                 g.DrawImageUnscaled(ChessPieceImageManager.GetImageTile(piece.Type, piece.Color, tileSize),
-                                    tileSize * piece.Position.X, tileSize * piece.Position.Y);
+                                    delta + tileSize * piece.Position.X, delta + tileSize * piece.Position.Y);
             }
         }
 
@@ -91,7 +96,7 @@ namespace MATSEChessGUI
 
         private static Rectangle GetTileRectangle(int x, int y)
         {
-            return new Rectangle(tileSize * x, tileSize * y, tileSize, tileSize);
+            return new Rectangle(delta + tileSize * x, delta + tileSize * y, tileSize, tileSize);
         }
 
         private static Brush GetBrushFor(int x, int y)
@@ -108,7 +113,7 @@ namespace MATSEChessGUI
             int adjX = rect.X + Math.Abs(rect.Width - width) / 2;
             int adjY = rect.Y + Math.Abs(rect.Height - height) / 2;
 
-            return new Rectangle(adjX, adjY, width, height);
+            return new Rectangle(delta + adjX, delta + adjY, width, height);
         }
 
         public static BitmapImage BitmapToImageSource(Bitmap bitmap)
