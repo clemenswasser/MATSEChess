@@ -12,6 +12,7 @@ namespace MATSEChessGUI
     public partial class MainWindow : Window
     {
         private static int tileSize;
+        private static int boardSize = 0;
         private ChessGame game = new ChessGame();
         private ChessBoardPosition? errorPos;
 
@@ -81,7 +82,10 @@ namespace MATSEChessGUI
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var boardSize = (int)Math.Min(boardCanvas.ActualWidth, boardCanvas.ActualHeight);
+            var newBoardSize = (int)Math.Min(boardCanvas.ActualWidth, boardCanvas.ActualHeight);
+            if (newBoardSize == boardSize) return;
+
+            boardSize = newBoardSize;
             tileSize = (int)(boardSize / 8.0);
 
             if (tileSize < 1) return;
