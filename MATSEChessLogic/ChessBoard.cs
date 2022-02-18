@@ -31,8 +31,10 @@ namespace MATSEChess
             return GetPositionPiece(pos)?.Color ?? ChessColor.NONE;
         }
 
-        public ChessPiece? GetPositionPiece(ChessBoardPosition pos)
+        public ChessPiece? GetPositionPiece(ChessBoardPosition? pos)
         {
+            if(pos == null) return null;
+
             foreach (var piece in pieces)
             {
                 if (piece.Position.Equals(pos))

@@ -20,6 +20,7 @@ namespace MATSEChessGUI
             var bitmap = DrawBasicBoard();
             DrawSelection(bitmap, board, selectedPos);
             DrawTile(bitmap, errorPos, ERROR_BRUSH);
+            DrawLabels(bitmap, board, selectedPos);
             DrawPieces(bitmap, board);
             return BitmapToImageSource(bitmap);
         }
@@ -57,6 +58,33 @@ namespace MATSEChessGUI
             }
 
             return bitmap;
+        }
+
+        public static void DrawLabels(Bitmap bitmap, ChessBoard board, ChessBoardPosition? selectedPos)
+        {
+            using Graphics g = Graphics.FromImage(bitmap);
+            var font = new Font("Segoe UI", Math.Max(1, tileSize / 7));
+            var labelYOffset = -(tileSize / 20);
+            StringFormat drawFormat = new StringFormat();
+            drawFormat.Alignment = StringAlignment.Far;
+            const int borderIndex = 7;
+
+            for (int i = 0; i < 8; ++i)
+            {
+                var baseColor = (i & 1) == 1 ? BRIGHT_BRUSH : DARK_BRUSH;
+
+                var numRect = GetTileRectangle(borderIndex, i);
+                numRect.Offset(0, labelYOffset);
+
+                var verticalColor = (selectedPos != null && selectedPos.X == borderIndex && selectedPos.Y == i) ? BRIGHT_BRUSH : baseColor;
+                g.DrawString(((char)('8' - i)).ToString(), font, verticalColor, numRect, drawFormat);
+
+                var letRect = GetTileRectangle(i, borderIndex);
+                letRect.Offset(0, labelYOffset);
+
+                var horizontalColor = (selectedPos != null && selectedPos.X == i && selectedPos.Y == borderIndex) ? BRIGHT_BRUSH : baseColor;
+                g.DrawString(((char)('A' + i)).ToString(), font, horizontalColor, letRect);
+            }
         }
 
         private static void DrawPieces(Bitmap bitmap, ChessBoard board)
