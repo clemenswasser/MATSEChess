@@ -37,23 +37,7 @@ namespace MATSEChessGUI
                     for (int y = 0; y < 8; ++y)
                     {
                         g.FillRectangle(GetBrushFor(x, y), GetTileRectangle(x, y));
-
-                        if (x == 7)
-                        {
-                            var numRect = GetTileRectangle(x, y);
-                            numRect.Offset(0, -(tileSize / 20));
-
-                            StringFormat drawFormat = new StringFormat();
-                            drawFormat.Alignment = StringAlignment.Far;
-
-                            g.DrawString(((char)('8' - y)).ToString(), font, (y & 1) == 1 ? BRIGHT_BRUSH : DARK_BRUSH, numRect, drawFormat);
-                        }
                     }
-
-                    var letRect = GetTileRectangle(x, 7);
-                    letRect.Offset(0, -(tileSize / 20));
-
-                    g.DrawString(((char)('A' + x)).ToString(), font, (x & 1) == 1 ? BRIGHT_BRUSH : DARK_BRUSH, letRect);
                 }
             }
 
@@ -71,7 +55,7 @@ namespace MATSEChessGUI
 
             for (int i = 0; i < 8; ++i)
             {
-                var baseColor = (i & 1) == 1 ? BRIGHT_BRUSH : DARK_BRUSH;
+                var baseColor = GetBrushFor(i, 0);
 
                 var numRect = GetTileRectangle(borderIndex, i);
                 numRect.Offset(0, labelYOffset);
@@ -142,7 +126,7 @@ namespace MATSEChessGUI
 
         private static Brush GetBrushFor(int x, int y)
         {
-            return ((x + y) % 2 == 0) ? DARK_BRUSH : BRIGHT_BRUSH;
+            return ((x + y) & 1) == 0 ? BRIGHT_BRUSH : DARK_BRUSH;
         }
 
         private static Rectangle GetTileCircle(int x, int y, double sizeMult = 1)
