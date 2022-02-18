@@ -11,8 +11,9 @@ namespace MATSEChessGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static int tileSize;
-        private static int boardSize = 0;
+        private int tileSize = 0;
+        private int boardSize = 0;
+        private double dpi = 0;
         private ChessGame game = new ChessGame();
         private ChessBoardPosition? errorPos;
 
@@ -70,8 +71,8 @@ namespace MATSEChessGUI
         private void OnBoardMouseDown(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(boardImage);
-            int relativeX = (int)(pos.X / tileSize);
-            int relativeY = (int)(pos.Y / tileSize);
+            int relativeX = (int)(pos.X * dpi / tileSize);
+            int relativeY = (int)(pos.Y * dpi / tileSize);
 
             var boardPos = new ChessBoardPosition(relativeX, relativeY);
             var success = game.SetSelection(boardPos);
@@ -82,7 +83,7 @@ namespace MATSEChessGUI
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var newBoardSize = (int)Math.Min(boardCanvas.ActualWidth, boardCanvas.ActualHeight);
+            var newBoardSize = (int)Math.Min(boardCanvas.ActualWidth * dpi, boardCanvas.ActualHeight * dpi);
             if (newBoardSize == boardSize) return;
 
             boardSize = newBoardSize;
@@ -124,6 +125,11 @@ namespace MATSEChessGUI
         {
             ChessPieceImageManager.DeployUnicorns();
             Rerender();
+        }
+
+        private void OnDpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            dpi = e.NewDpi.PixelsPerDip;
         }
     }
 }

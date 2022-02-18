@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MATSEChessGUI"
         mc:Ignorable="d"
-        Title="MATSE Chess" Width="1097" Height="759" Icon="resources/Chess_pdt45.svg.png">
+        Title="MATSE Chess" Width="1097" Height="759" Icon="resources/Chess_pdt45.svg.png" DpiChanged="OnDpiChanged">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
